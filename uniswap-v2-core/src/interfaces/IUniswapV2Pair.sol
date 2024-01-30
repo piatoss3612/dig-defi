@@ -3,6 +3,10 @@ pragma solidity ^0.8.19;
 
 // 유동성 풀의 토큰 쌍을 나타내는 인터페이스
 interface IUniswapV2Pair {
+    /*
+
+    // solidity v0.8.0 이상에서는 상속 문제로 인해 UniswapV2ERC20와 충돌이 발생하므로 주석 처리
+
     event Approval(address indexed owner, address indexed spender, uint value); // Approval 이벤트 (owner가 spender에게 value만큼의 토큰을 인출할 수 있도록 허가)
     event Transfer(address indexed from, address indexed to, uint value); // Transfer 이벤트 (from에서 to로 value만큼의 토큰을 전송)
 
@@ -31,7 +35,7 @@ interface IUniswapV2Pair {
         uint value
     ) external returns (bool); // from에서 to에게 value만큼의 토큰을 전송
 
-    function DOMAIN_SEPARATOR() external view returns (bytes32); // EIP-2612 permit()을 위한 도메인 분리자
+    function DOMAIN_SEPARATOR() external view returns (bytes32); // EIP-2612 permit()을 위한 도메인 구분자
 
     function PERMIT_TYPEHASH() external pure returns (bytes32); // EIP-2612 permit()을 위한 타입 해시
 
@@ -46,6 +50,7 @@ interface IUniswapV2Pair {
         bytes32 r,
         bytes32 s
     ) external; // EIP-2612 permit()을 통한 토큰 인출 허가
+    */
 
     event Mint(address indexed sender, uint amount0, uint amount1); // Mint 이벤트 (sender가 amount0만큼의 token0과 amount1만큼의 token1을 유동성 풀에 추가)
     event Burn(

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.19;
 
-// 유동성 예치 시에 동일한 비율로 제공되는 LP 토큰의 ERC20 표준 인터페이스
+// 유동성 예치 시에 제공되는 LP 토큰의 ERC20 표준 인터페이스
 interface IUniswapV2ERC20 {
     event Approval(address indexed owner, address indexed spender, uint value); // Approval 이벤트 (owner가 spender에게 value만큼의 토큰을 인출할 수 있도록 허가)
     event Transfer(address indexed from, address indexed to, uint value); // Transfer 이벤트 (from에서 to로 value만큼의 토큰을 전송)
