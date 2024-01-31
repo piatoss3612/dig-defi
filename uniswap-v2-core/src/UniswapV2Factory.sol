@@ -5,10 +5,10 @@ import "./interfaces/IUniswapV2Factory.sol";
 import "./UniswapV2Pair.sol";
 
 contract UniswapV2Factory is IUniswapV2Factory {
-    address public feeTo; // feeTo는 수수료를 받을 주소
-    address public feeToSetter; // feeToSetter는 feeTo를 설정할 수 있는 주소
+    address public feeTo; // 수수료를 받을 주소
+    address public feeToSetter; // feeTo를 설정할 수 있는 주소
 
-    mapping(address => mapping(address => address)) public getPair; // token0과 token1을 입력하면 해당 토큰 쌍의 UniswapV2Pair 컨트랙트 주소를 반환
+    mapping(address => mapping(address => address)) public getPair; // token0과 token1을 입력하면 해당 토큰 쌍의 UniswapV2Pair 컨트랙트 주소를 반환 (반대로도 찾을 수 있음)
     address[] public allPairs; // 모든 토큰 쌍의 UniswapV2Pair 컨트랙트 주소를 저장하는 배열
 
     constructor(address _feeToSetter) {
