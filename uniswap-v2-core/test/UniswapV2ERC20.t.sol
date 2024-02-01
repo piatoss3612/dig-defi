@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.19;
 
-import "../src/test/UniswapV2ERC20WithMint.sol";
+import {UniswapV2ERC20WithMint} from "../src/test/ERC20.sol";
 import "forge-std/Test.sol";
 
 contract UniswapV2ERC20Test is Test {
