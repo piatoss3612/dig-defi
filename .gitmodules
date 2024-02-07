@@ -10,3 +10,6 @@
 [submodule "layerzero-v1-swap/lib/solidity-examples"]
 	path = layerzero-v1-swap/lib/solidity-examples
 	url = https://github.com/LayerZero-Labs/solidity-examples
+[submodule "layerzero-v1-swap/lib/openzeppelin-contracts"]
+	path = layerzero-v1-swap/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
