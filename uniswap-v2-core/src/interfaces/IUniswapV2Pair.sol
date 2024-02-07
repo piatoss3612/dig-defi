@@ -16,7 +16,6 @@ interface IUniswapV2Pair {
 
     function decimals() external pure returns (uint8); // 토큰 소수점 자리수 / ether의 경우 18 (getter)
 
-    function totalSupply() external view returns (uint); // 토큰 총 발행량 (getter)
 
     function balanceOf(address owner) external view returns (uint); // owner의 토큰 잔액 (getter)
 

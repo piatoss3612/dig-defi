@@ -243,11 +243,11 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
         ); // swap을 통해 유동성 풀에 추가된 토큰0과 토큰1의 수량이 하나라도 0이면 에러 반환
         {
             // scope for reserve{0,1}Adjusted, avoids stack too deep errors
-            uint balance0Adjusted = balance0.mul(1000).sub(amount0In.mul(3)); // balance0Adjusted = balance0 * 1000 - amount0In * 3
-            uint balance1Adjusted = balance1.mul(1000).sub(amount1In.mul(3)); // balance1Adjusted = balance1 * 1000 - amount1In * 3
+            uint balance0Adjusted = balance0.mul(1000).sub(amount0In.mul(3)); // amount0In이 0이 아니라면 0.3%의 수수료가 적용되지 않은 토큰0의 보유량
+            uint balance1Adjusted = balance1.mul(1000).sub(amount1In.mul(3)); // amount1In이 0이 아니라면 0.3%의 수수료가 적용되지 않은 토큰1의 보유량
             require(
                 balance0Adjusted.mul(balance1Adjusted) >=
-                    uint(_reserve0).mul(_reserve1).mul(1000 ** 2), // balance0Adjusted * balance1Adjusted = (balance0 * 1000 - amount0In * 3) * (balance1 * 1000 - amount1In * 3) >= reserve0 * reserve1 * 1000^2
+                    uint(_reserve0).mul(_reserve1).mul(1000 ** 2), // 수수료가 적용되지 않은 토큰0과 토큰1의 보유량의 곱이 기존의 토큰0과 토큰1의 보유량의 곱보다 크거나 같아야 함 (수수료 포함 여부 확인)
                 "UniswapV2: K"
             ); // 상수 k가 변하지 않도록 체크
         }
