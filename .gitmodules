@@ -16,3 +16,6 @@
 [submodule "hyperlane-v3/lib/forge-std"]
 	path = hyperlane-v3/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "hyperlane-v3/lib/hyperlane-monorepo"]
+	path = hyperlane-v3/lib/hyperlane-monorepo
+	url = https://github.com/hyperlane-xyz/hyperlane-monorepo
