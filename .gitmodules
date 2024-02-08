@@ -13,3 +13,6 @@
 [submodule "layerzero-v1-swap/lib/openzeppelin-contracts"]
 	path = layerzero-v1-swap/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "hyperlane-v3/lib/forge-std"]
+	path = hyperlane-v3/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
