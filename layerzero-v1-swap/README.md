@@ -1,49 +1,4 @@
-## Foundry
-
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
-
-Foundry consists of:
-
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
+# Layer Zero V1
 
 ## Hello World Example
 
@@ -51,8 +6,8 @@ $ anvil
 
 ```shell
 $ source .env
-$ forge script script/DeployCrossChainHelloWorldMumbai.s.sol:CrossChainHelloWorldMumbaiScript --rpc-url mumbai --broadcast -vvvv
-$ forge script script/DeployCrossChainHelloWorldSepolia.s.sol:CrossChainHelloWorldSepoliaScript --rpc-url sepolia --broadcast -vvvv
+$ forge script script/CrossChainHelloWorldMumbai.s.sol:DeployScript --rpc-url mumbai --broadcast -vvvv
+$ forge script script/CrossChainHelloWorldSepolia.s.sol:DeployScript --rpc-url sepolia --broadcast -vvvv
 ```
 
 ### Verify Contract
@@ -71,23 +26,28 @@ $ forge verify-contract 0xe9b53942eadEeE83EB998554C042955B248bb30A --chain sepol
 - set trust address of each contract on each chain
 
 ```shell
-$ forge script script/TrustAddressCrossChainHelloWorldMumbai.s.sol:SetTrustAddressMumbaiScript --rpc-url mumbai --broadcast -vvvv
-$ forge script script/TrustAddressCrossChainHelloWorldSepolia.s.sol:SetTrustAddressSepoliaScript --rpc-url sepolia --broadcast -vvvv
+$ forge script script/CrossChainHelloWorldMumbai.s.sol:SetupScript --rpc-url mumbai --broadcast -vvvv
+$ forge script script/CrossChainHelloWorldSepolia.s.sol:SetupScript --rpc-url sepolia --broadcast -vvvv
 ```
 
 - check data before sending message
 
 ```shell
-$ forge script script/CheckDataMumbai.sol --rpc-url mumbai -vvvv
+$ forge script script/CrossChainHelloWorldMumbai.s.sol:CheckDataScript --rpc-url mumbai -vvvv
 ...
 == Logs ==
   data:  Nothing received yet
+```
+- estimate gas for sending message from Sepolia to Mumbai
+
+```shell
+$ forge script script/CrossChainHelloWorldSepolia.s.sol:EstimateGasScript --rpc-url sepolia -vvvv
 ```
 
 - send message from Sepolia to Mumbai
 
 ```shell
-$ forge script script/SendMessageCrossChainHelloWorldSepolia.s.sol --rpc-url sepolia -vvvv
+$ forge script script/CrossChainHelloWorldSepolia.s.sol:SendMessageScript --rpc-url sepolia -vvvv
 ```
 
 - check data after sending message
@@ -95,10 +55,10 @@ $ forge script script/SendMessageCrossChainHelloWorldSepolia.s.sol --rpc-url sep
 > it takes for a while to get the result.
 
 ```shell
-$ forge script script/CheckDataMumbai.sol --rpc-url mumbai -vvvv
+$ forge script script/CrossChainHelloWorldMumbai.s.sol:CheckDataScript --rpc-url mumbai -vvvv
 ...
 == Logs ==
-  data:  Hello World from Sepolia
+  data:  Hello World from Sepolia V2
 ```
 
 ## Swap MATIC to ETH
