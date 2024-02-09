@@ -30,3 +30,6 @@
 [submodule "ethernaut/lib/forge-std"]
 	path = ethernaut/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "ethernaut/lib/openzeppelin-contracts"]
+	path = ethernaut/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
