@@ -104,6 +104,48 @@ $ forge script script/VoteMain.s.sol:CheckProposalScript --rpc-url sepolia -vvvv
   Votes against:  1
 ```
 
+## Cross-Chain NFT
+
+### Deploy NFT Router to Sepolia and Verify 
+
+```shell
+$ forge script script/CrosschainNftRouter.s.sol:Deploy --rpc-url sepolia --broadcast --verify -vvvv
+...
+== Logs ==
+  Deployed CrosschainNftRouter at:  0xE06F728cB5fD5a45BA12a7528e5f90d4641B85EF
+```
+
+### Deploy NFT to Mumbai and Verify
+
+```shell
+$ forge script script/CrosschainNftMumbai.s.sol:Deploy --rpc-url mumbai --broadcast --verify -vvvv
+...
+== Logs ==
+  Deployed CrosschainNft at:  0x4a1A6865A5bb6C9ed988052e6f004c81c9D424Eb
+```
+
+### Send NFT from Sepolia to Mumbai
+
+```shell
+$ forge script script/CrosschainNftRouter.s.sol:SendNft --rpc-url sepolia --broadcast -vvvv
+...
+== Logs ==
+  Sent NFT to domain:  80001
+```
+
+### Check Hyperlane V3 Explorer
+
+- [Hyperlane V3 Explorer](https://explorer.hyperlane.xyz/message/0x95cda4dc1307ad3e9b6a886cc76162a0a79e89bca8543ae0df3537cd15b1b903)
+
+### Check token URI on Mumbai
+
+```shell
+$ forge script script/CrosschainNftMumbai.s.sol:CheckURI --rpc-url mumbai -vvvv
+...
+== Logs ==
+  NFT URI:  https://green-main-hoverfly-930.mypinata.cloud/ipfs/QmXbFt5tDifdSgPmhFrwD56iNsJqbxCZ8dSdv4qzp49PNs
+```
+
 ## References
 
 - [Messaging API -V3](https://blog.hyperlaneindia.xyz/messaging-api-v3)

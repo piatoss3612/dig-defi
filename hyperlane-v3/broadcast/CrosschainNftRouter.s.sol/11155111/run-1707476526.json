@@ -1,0 +1,62 @@
+{
+  "transactions": [
+    {
+      "hash": "0x14055732fde4015e092b3576d61b1c4c989257511bcce37d3f1790f6d861af34",
+      "transactionType": "CALL",
+      "contractName": null,
+      "contractAddress": "0xE06F728cB5fD5a45BA12a7528e5f90d4641B85EF",
+      "function": "setDomainToNftContract(uint32,address)",
+      "arguments": [
+        "80001",
+        "0x4a1A6865A5bb6C9ed988052e6f004c81c9D424Eb"
+      ],
+      "transaction": {
+        "type": "0x02",
+        "from": "0x965b0e63e00e7805569ee3b428cf96330dfc57ef",
+        "to": "0xe06f728cb5fd5a45ba12a7528e5f90d4641b85ef",
+        "gas": "0x10922",
+        "value": "0x0",
+        "data": "0x364b69de00000000000000000000000000000000000000000000000000000000000138810000000000000000000000004a1a6865a5bb6c9ed988052e6f004c81c9d424eb",
+        "nonce": "0x10b",
+        "accessList": []
+      },
+      "additionalContracts": [],
+      "isFixedGasLimit": false
+    },
+    {
+      "hash": "0xc396604e34e547feb90d27e58f5c5cd08f877c1f83246c51fcd978b195f4be1e",
+      "transactionType": "CALL",
+      "contractName": null,
+      "contractAddress": "0xE06F728cB5fD5a45BA12a7528e5f90d4641B85EF",
+      "function": "sendNft(uint32,address,string)",
+      "arguments": [
+        "80001",
+        "0x965B0E63e00E7805569ee3B428Cf96330DFc57EF",
+        "\"https://green-main-hoverfly-930.mypinata.cloud/ipfs/QmXbFt5tDifdSgPmhFrwD56iNsJqbxCZ8dSdv4qzp49PNs\""
+      ],
+      "transaction": {
+        "type": "0x02",
+        "from": "0x965b0e63e00e7805569ee3b428cf96330dfc57ef",
+        "to": "0xe06f728cb5fd5a45ba12a7528e5f90d4641b85ef",
+        "gas": "0x428d7",
+        "value": "0x1",
+        "data": "0x01867c3a0000000000000000000000000000000000000000000000000000000000013881000000000000000000000000965b0e63e00e7805569ee3b428cf96330dfc57ef0000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000006268747470733a2f2f677265656e2d6d61696e2d686f766572666c792d3933302e6d7970696e6174612e636c6f75642f697066732f516d586246743574446966645367506d68467277443536694e734a716278435a386453647634717a703439504e73000000000000000000000000000000000000000000000000000000000000",
+        "nonce": "0x10c",
+        "accessList": []
+      },
+      "additionalContracts": [],
+      "isFixedGasLimit": false
+    }
+  ],
+  "receipts": [],
+  "libraries": [],
+  "pending": [
+    "0x14055732fde4015e092b3576d61b1c4c989257511bcce37d3f1790f6d861af34",
+    "0xc396604e34e547feb90d27e58f5c5cd08f877c1f83246c51fcd978b195f4be1e"
+  ],
+  "returns": {},
+  "timestamp": 1707476526,
+  "chain": 11155111,
+  "multi": false,
+  "commit": "dcbfd09"
+}

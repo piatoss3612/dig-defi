@@ -3,10 +3,6 @@ pragma solidity ^0.8.23;
 
 import {IMailbox} from "@hyperlane/contracts/interfaces/IMailbox.sol";
 import {IPostDispatchHook} from "@hyperlane/contracts/interfaces/hooks/IPostDispatchHook.sol";
-import {IInterchainSecurityModule} from "@hyperlane/contracts/interfaces/IInterchainSecurityModule.sol";
-
-import {Address} from "@openzeppelin/contracts/utils/Address.sol";
-import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 contract VoteMain {
     event ProposalCreated(
@@ -37,10 +33,10 @@ contract VoteMain {
         uint256 votingPeriod;
     }
 
-    mapping(uint256 => Proposal) proposals;
-    mapping(address => mapping(uint256 => bool)) votes;
+    mapping(uint256 => Proposal) public proposals;
+    mapping(address => mapping(uint256 => bool)) public votes;
 
-    address mailbox;
+    address public mailbox;
 
     constructor(address _mailbox) {
         mailbox = _mailbox;
