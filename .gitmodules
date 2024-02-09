@@ -27,3 +27,6 @@
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable
 [submodule "lib/hyperlane-monorepo"]
 	branch = main
+[submodule "ethernaut/lib/forge-std"]
+	path = ethernaut/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
