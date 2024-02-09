@@ -39,3 +39,6 @@
 [submodule "layerzero-v2/lib/LayerZero-v2"]
 	path = layerzero-v2/lib/LayerZero-v2
 	url = https://github.com/LayerZero-Labs/LayerZero-v2
+[submodule "layerzero-v2/lib/openzeppelin-contracts"]
+	path = layerzero-v2/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
