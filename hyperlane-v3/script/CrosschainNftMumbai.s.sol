@@ -22,7 +22,7 @@ contract Deploy is Script {
     }
 }
 
-contract CheckURI is Script {
+contract CheckNFT is Script {
     function setUp() public {}
 
     function run() public {
@@ -31,10 +31,14 @@ contract CheckURI is Script {
         vm.startBroadcast(privateKey);
 
         CrosschainNft instance = CrosschainNft(
-            0x4a1A6865A5bb6C9ed988052e6f004c81c9D424Eb
+            0x3716B00671B801f34bB4c99Aba5889A13d65c42E
         );
 
-        string memory uri = instance.tokenURI(0);
+        address owner = instance.ownerOf(1);
+
+        console.log("NFT Owner: ", owner);
+
+        string memory uri = instance.tokenURI(1);
 
         console.log("NFT URI: ", uri);
 

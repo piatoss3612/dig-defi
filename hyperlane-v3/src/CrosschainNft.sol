@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.23;
 
-import {IMailbox} from "@hyperlane/contracts/interfaces/IMailbox.sol";
+import {IMessageRecipient} from "@hyperlane-v3/contracts/interfaces/IMessageRecipient.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ERC721, ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract CrosschainNft is ERC721URIStorage {
+contract CrosschainNft is ERC721URIStorage, IMessageRecipient {
     address public mailbox;
     uint256 public tokenId;
 
@@ -28,13 +28,13 @@ contract CrosschainNft is ERC721URIStorage {
         uint32 /*_origin*/,
         bytes32 /*_sender*/,
         bytes memory _body
-    ) external onlyMailbox {
+    ) external payable onlyMailbox {
         (address to, string memory tokenURI) = abi.decode(
             _body,
             (address, string)
         );
 
-        uint256 _tokenId = tokenId++;
+        uint256 _tokenId = ++tokenId;
 
         _mint(to, _tokenId);
         _setTokenURI(_tokenId, tokenURI);

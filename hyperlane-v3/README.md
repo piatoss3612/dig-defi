@@ -4,8 +4,8 @@
 
 ```shell
 $ forge install hyperlane-xyz/hyperlane-monorepo@main
-$ forge install OpenZeppelin/openzeppelin-contracts
-$ forge install OpenZeppelin/openzeppelin-contracts-upgradeable
+$ forge install OpenZeppelin/openzeppelin-contracts@release-v4.9
+$ forge install OpenZeppelin/openzeppelin-contracts-upgradeable@release-v4.9
 ```
 
 ### Remapping
@@ -21,7 +21,7 @@ $ forge remappings > remappings.txt
 ds-test/=lib/forge-std/lib/ds-test/src/
 erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/
 forge-std/=lib/forge-std/src/
-@hyperlane/=lib/hyperlane-monorepo/solidity/
+@hyperlane-v3/=lib/hyperlane-monorepo/solidity/
 openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/
 openzeppelin-contracts/=lib/openzeppelin-contracts/
 ```
@@ -112,7 +112,7 @@ $ forge script script/VoteMain.s.sol:CheckProposalScript --rpc-url sepolia -vvvv
 $ forge script script/CrosschainNftRouter.s.sol:Deploy --rpc-url sepolia --broadcast --verify -vvvv
 ...
 == Logs ==
-  Deployed CrosschainNftRouter at:  0xE06F728cB5fD5a45BA12a7528e5f90d4641B85EF
+  Deployed CrosschainNftRouter at:  0xe996557C3A4D3586786359ccCaBe9f76842D1783
 ```
 
 ### Deploy NFT to Mumbai and Verify
@@ -121,7 +121,7 @@ $ forge script script/CrosschainNftRouter.s.sol:Deploy --rpc-url sepolia --broad
 $ forge script script/CrosschainNftMumbai.s.sol:Deploy --rpc-url mumbai --broadcast --verify -vvvv
 ...
 == Logs ==
-  Deployed CrosschainNft at:  0x4a1A6865A5bb6C9ed988052e6f004c81c9D424Eb
+  Deployed CrosschainNft at:  0x3716B00671B801f34bB4c99Aba5889A13d65c42E
 ```
 
 ### Send NFT from Sepolia to Mumbai
@@ -130,12 +130,13 @@ $ forge script script/CrosschainNftMumbai.s.sol:Deploy --rpc-url mumbai --broadc
 $ forge script script/CrosschainNftRouter.s.sol:SendNft --rpc-url sepolia --broadcast -vvvv
 ...
 == Logs ==
+  Estimated fee:  1
   Sent NFT to domain:  80001
 ```
 
 ### Check Hyperlane V3 Explorer
 
-- [Hyperlane V3 Explorer](https://explorer.hyperlane.xyz/message/0x95cda4dc1307ad3e9b6a886cc76162a0a79e89bca8543ae0df3537cd15b1b903)
+- [Hyperlane V3 Explorer](https://explorer.hyperlane.xyz/message/0x3dba52dbe1878c2bb709b264e4dfc385af7f8926e5f214ccfe84cdf01feec3ac)
 
 ### Check token URI on Mumbai
 

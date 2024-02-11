@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.23;
 
-import {IMailbox} from "@hyperlane/contracts/interfaces/IMailbox.sol";
-import {IPostDispatchHook} from "@hyperlane/contracts/interfaces/hooks/IPostDispatchHook.sol";
+import {IMailbox} from "@hyperlane-v3/contracts/interfaces/IMailbox.sol";
+import {IPostDispatchHook} from "@hyperlane-v3/contracts/interfaces/hooks/IPostDispatchHook.sol";
 
 contract VoteMain {
     event ProposalCreated(

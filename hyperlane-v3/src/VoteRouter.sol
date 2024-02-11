@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.23;
 
-import {IMailbox} from "@hyperlane/contracts/interfaces/IMailbox.sol";
+import {IMailbox} from "@hyperlane-v3/contracts/interfaces/IMailbox.sol";
 
 contract VoteRouter {
     enum Vote {

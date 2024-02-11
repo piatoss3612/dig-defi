@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
 import {CrosschainNftRouter} from "../src/CrosschainNftRouter.sol";
+import {TypeCasts} from "@hyperlane-v3/contracts/libs/TypeCasts.sol";
 
 contract Deploy is Script {
     function setUp() public {}
@@ -31,20 +32,22 @@ contract SendNFT is Script {
         vm.startBroadcast(privateKey);
 
         CrosschainNftRouter instance = CrosschainNftRouter(
-            0xE06F728cB5fD5a45BA12a7528e5f90d4641B85EF
+            0xe996557C3A4D3586786359ccCaBe9f76842D1783
         );
 
         uint32 domainId = 80001;
-
-        instance.setDomainToNftContract(
-            domainId,
-            0x4a1A6865A5bb6C9ed988052e6f004c81c9D424Eb
+        bytes32 recipientAddress = TypeCasts.addressToBytes32(
+            0x3716B00671B801f34bB4c99Aba5889A13d65c42E
         );
+
+        instance.enrollRemoteRouter(domainId, recipientAddress);
 
         string
             memory uri = "https://green-main-hoverfly-930.mypinata.cloud/ipfs/QmXbFt5tDifdSgPmhFrwD56iNsJqbxCZ8dSdv4qzp49PNs";
 
         uint256 fee = instance.estimateFee(domainId, vm.addr(privateKey), uri);
+
+        console.log("Estimated fee: ", fee);
 
         instance.sendNft{value: fee}(domainId, vm.addr(privateKey), uri);
 
@@ -53,23 +56,3 @@ contract SendNFT is Script {
         vm.stopBroadcast();
     }
 }
-// contract VoteScript is Script {
-//     function setUp() public {}
-
-//     function run() public {
-//         uint256 privateKey = vm.envUint("PRIVATE_KEY");
-
-//         vm.startBroadcast(privateKey);
-
-//         VoteRouter instance = VoteRouter(
-//             0x1490c98b64Dc2a5963B2648a195ACE9719225d5D
-//         );
-
-//         instance.sendVote{value: 1000 gwei}(
-//             106343027174924039072363677969788076485983697713036371895217183766366697150692,
-//             VoteRouter.Vote.AGAINST
-//         );
-
-//         vm.stopBroadcast();
-//     }
-// }
