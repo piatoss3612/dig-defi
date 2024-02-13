@@ -1,0 +1,56 @@
+{
+  "transactions": [
+    {
+      "hash": "0x006c24ad913e677f7eed3bf7c3befa1b13c2947e7a4e7bb2f781fb2eee5414f5",
+      "transactionType": "CREATE",
+      "contractName": "MyDivisionCalculator",
+      "contractAddress": "0xED5160554F93138c7f537bC1C99BFa475c97E622",
+      "function": null,
+      "arguments": null,
+      "transaction": {
+        "type": "0x02",
+        "from": "0x965b0e63e00e7805569ee3b428cf96330dfc57ef",
+        "gas": "0x1fafc",
+        "value": "0x0",
+        "data": "0x608060405234801561001057600080fd5b5060d78061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063f88e9fbf14602d575b600080fd5b603c6038366004605f565b604e565b60405190815260200160405180910390f35b6000605882846080565b9392505050565b60008060408385031215607157600080fd5b50508035926020909101359150565b600082609c57634e487b7160e01b600052601260045260246000fd5b50049056fea26469706673582212200aafe969af3370706ac8786e40ab6d794bde064c14262e43a569bdb59a72915464736f6c63430008180033",
+        "nonce": "0x2d8",
+        "accessList": []
+      },
+      "additionalContracts": [],
+      "isFixedGasLimit": false
+    },
+    {
+      "hash": "0x85148108ab58f4e9cab4f2120952028d803cb268ee17aeae918e36b6ee6155b5",
+      "transactionType": "CALL",
+      "contractName": null,
+      "contractAddress": "0x767b7850dfAd1Aa64D6F806f5a956b837a491e35",
+      "function": "setDivisionCalculator(address)",
+      "arguments": [
+        "0xED5160554F93138c7f537bC1C99BFa475c97E622"
+      ],
+      "transaction": {
+        "type": "0x02",
+        "from": "0x965b0e63e00e7805569ee3b428cf96330dfc57ef",
+        "to": "0x767b7850dfad1aa64d6f806f5a956b837a491e35",
+        "gas": "0xed93",
+        "value": "0x0",
+        "data": "0x30980f17000000000000000000000000ed5160554f93138c7f537bc1c99bfa475c97e622",
+        "nonce": "0x2d9",
+        "accessList": []
+      },
+      "additionalContracts": [],
+      "isFixedGasLimit": false
+    }
+  ],
+  "receipts": [],
+  "libraries": [],
+  "pending": [
+    "0x006c24ad913e677f7eed3bf7c3befa1b13c2947e7a4e7bb2f781fb2eee5414f5",
+    "0x85148108ab58f4e9cab4f2120952028d803cb268ee17aeae918e36b6ee6155b5"
+  ],
+  "returns": {},
+  "timestamp": 1707796111,
+  "chain": 80001,
+  "multi": false,
+  "commit": "050f9e8"
+}
