@@ -1,5 +1,9 @@
 # Web3OJ Solutions
 
+## Introduction
+
+- [Web3OJ](https://app.web3oj.com)에서 제공하는 문제들을 `foundry`를 사용하여 풀어봅니다.
+
 ## Table of Contents
 
 - [01. 덧셈](#01-덧셈)
@@ -25,6 +29,14 @@
 - [21. Run With ABI](#21-run-with-abi)
 - [22. Private Value 찾기](#22-private-value-찾기)
 - [23. Run With ABI2 : Delegation of Authority](#23-run-with-abi2--delegation-of-authority)
+- [24. ETH 송금하고 받기](#24-eth-송금하고-받기)
+- [25. 좌물쇠 풀기](#25-좌물쇠-풀기)
+- [26. 문자열 비교](#26-문자열-비교)
+- [27. 에러 메시지 처리하기](#27-에러-메시지-처리하기)
+- [28. 에러 코드 처리하기](#28-에러-코드-처리하기)
+- [29. 에러 데이터 처리하기](#29-에러-데이터-처리하기)
+- [30. 배열의 합 구하기](#30-배열의-합-구하기)
+- [31. 휴면계좌에 이더 넣기](#31-휴면계좌에-이더-넣기)
 
 ## 01. 덧셈
 
@@ -215,4 +227,75 @@ $ cast selectors $(cast code 0xF8E07835C94aC985821d45B0a468679790035683 --rpc-ur
 
 ```bash
 $ forge script script/23/RunWithABI2.s.sol:RunWithABI2Script --rpc-url mumbai --broadcast -vvvv
+```
+
+## 24. ETH 송금하고 받기
+
+- `cast selectors` 명령어를 사용하여 스마트 컨트랙트의 런타임 바이트코드로부터 함수 선택자와 파라미터 타입을 확인합니다.
+
+```bash
+0x11d2cb63      address
+0x325ec768
+0xf6b4dfb4
+```
+
+- `cast 4byte` 명령어를 사용해 함수 선택자로부터 함수 시그니처를 확인합니다.
+
+```bash
+$ cast 4byte 0x325ec768
+sendEtherToContract()
+```
+
+```bash
+$ cast 4byte 0xf6b4dfb4
+contractAddress()
+```
+
+- `sendEtherToContract` 함수를 사용해 이더를 스마트 컨트랙트로 송금할 수 있습니다.
+- 또는 스마트 컨트랙트에 fallback 함수가 정의되어 있으므로 `send`, `transfer`, `call` 함수를 사용해 이더를 스마트 컨트랙트로 송금할 수 있습니다.
+
+```bash
+$ forge script script/24/ReceiveEther.s.sol --rpc-url mumbai --broadcast -vvvv
+```
+
+## 25. 좌물쇠 풀기
+
+```bash
+$ forge script script/25/Lock.s.sol --rpc-url mumbai --broadcast -vvvv
+```
+
+## 26. 문자열 비교
+
+```bash
+$ forge script script/26/StringCompare.s.sol --rpc-url mumbai --broadcast -vvvv
+```
+
+## 27. 에러 메시지 처리하기
+
+```bash
+$ forge script script/27/ErrorHandle.s.sol --rpc-url mumbai --broadcast -vvvv
+```
+
+## 28. 에러 코드 처리하기
+
+```bash
+$ forge script script/27/ErrorHandle2.s.sol --rpc-url mumbai --broadcast -vvvv
+```
+
+## 29. 에러 데이터 처리하기
+
+```bash
+$ forge script script/29/ErrorHandle3.s.sol:ErrorHandle3Script --rpc-url mumbai --broadcast -vvvv
+```
+
+## 30. 배열의 합 구하기
+
+```bash
+$ forge script script/30/SumOfArray.s.sol --rpc-url mumbai --broadcast -vvvv
+```
+
+## 31. 휴면계좌에 이더 넣기
+
+```bash
+$ forge script script/31/DormantAccount.s.sol --rpc-url mumbai --broadcast -vvvv
 ```
