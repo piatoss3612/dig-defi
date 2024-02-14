@@ -2,9 +2,9 @@
 pragma solidity ^0.8.23;
 
 import {Script, console} from "forge-std/Script.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "../../src/17/ERC721Pausable.sol";
 
-contract ERC721ApproveScript is Script {
+contract ERC721PausableScript is Script {
     function setUp() public {}
 
     function run() public {
@@ -12,12 +12,12 @@ contract ERC721ApproveScript is Script {
 
         vm.startBroadcast(privateKey);
 
-        address instanceAddress = vm.envAddress("ERC721APPROVE_INSTANCE");
+        address instanceAddress = vm.envAddress("ERC721PAUSABLE_INSTANCE");
 
-        IERC721 instance = IERC721(instanceAddress);
+        Web3OnlineJudgeNFTPausable instance = Web3OnlineJudgeNFTPausable(instanceAddress);
 
-        instance.approve(instanceAddress, 0);
-       
+        instance.pause();
+
         vm.stopBroadcast();
     }
 }

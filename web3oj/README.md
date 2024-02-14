@@ -1,5 +1,31 @@
 # Web3OJ Solutions
 
+## Table of Contents
+
+- [01. 덧셈](#01-덧셈)
+- [02. 뺄셈](#02-뺄셈)
+- [03. 곱셈](#03-곱셈)
+- [04. 나눗셈](#04-나눗셈)
+- [05. ERC-20 토큰 만들기](#05-erc-20-토큰-만들기)
+- [06. ERC-20 송금](#06-erc-20-송금)
+- [07. ERC-20 인출 허용하기](#07-erc-20-인출-허용하기)
+- [08. ERC-20 인출하기](#08-erc-20-인출하기)
+- [09. ERC-20 Mint 위임하기](#09-erc-20-mint-위임하기)
+- [10. ERC-20 소각하기](#10-erc-20-소각하기)
+- [11. ERC-20 일시정지](#11-erc-20-일시정지)
+- [12. ERC-20 Permit](#12-erc-20-permit)
+- [13. ERC-721 NFT 만들기](#13-erc-721-nft-만들기)
+- [14. ERC-721 인출 허용하기](#14-erc-721-인출-허용하기)
+- [15. ERC-721 인출하기](#15-erc-721-인출하기)
+- [16. ERC-721 소각하기](#16-erc-721-소각하기)
+- [17. ERC-721 일시정지](#17-erc-721-일시정지)
+- [18. ERC-721 찾아서 송금하기](#18-erc-721-찾아서-송금하기)
+- [19. ERC-721 Mint 위임하기](#19-erc-721-mint-위임하기)
+- [20. ERC-721 Mint 위임하기(Auto Increment Ids)](#20-erc-721-mint-위임하기auto-increment-ids)
+- [21. Run With ABI](#21-run-with-abi)
+- [22. Private Value 찾기](#22-private-value-찾기)
+- [23. Run With ABI2 : Delegation of Authority](#23-run-with-abi2--delegation-of-authority)
+
 ## 01. 덧셈
 
 ```bash
@@ -84,9 +110,67 @@ $ forge script script/13/ERC721Init.s.sol --rpc-url mumbai --broadcast -vvvv
 $ forge script script/14/ERC721Approve.s.sol --rpc-url mumbai --broadcast -vvvv
 ```
 
+## 15. ERC-721 인출하기
+
+```bash
+$ forge script script/15/ERC721TransferFrom.s.sol --rpc-url mumbai --broadcast -vvvv
+```
+
+## 16. ERC-721 소각하기
+
+```bash
+$ forge script script/16/ERC721Burnable.s.sol --rpc-url mumbai --broadcast -vvvv
+```
+
+## 17. ERC-721 일시정지
+
+```bash
+$ forge script script/17/ERC721Pausable.s.sol --rpc-url mumbai --broadcast -vvvv
+```
+
+## 18. ERC-721 찾아서 송금하기
+
+- `cast logs` 명령어를 사용하여 `Transfer` 이벤트를 확인합니다.
+
+```bash
+$ cast logs 'Transfer(address indexed from, address indexed to, uint256 indexed tokenId)' --address 0xD2dD0DdDBcdBd262120F411a45B271BcA3c87587 --rpc-url mumbai --from-block 45894049 --to-block latest
+- address: 0xD2dD0DdDBcdBd262120F411a45B271BcA3c87587
+  blockHash: 0xa8a6e310d73cad957895bdcaec939ff68092412ea98c886931296bf3ac722e9a
+  blockNumber: 45894048
+  data: 0x
+  logIndex: 75
+  removed: false
+  topics: [
+        0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
+        0x0000000000000000000000000000000000000000000000000000000000000000
+        0x000000000000000000000000965b0e63e00e7805569ee3b428cf96330dfc57ef
+        0x00000000000000000000000000000000000000000000000000000000000002f0
+  ]
+  transactionHash: 0x596cd46566ebccf2380ede1b92b07a24d46ed052ceeb63583c31b25d364a2ac5
+  transactionIndex: 29
+```
+
+- 토큰 id는 `0x2f0`입니다.
+
+```bash
+$ forge script script/18/ERC721FindTransfer.s.sol --rpc-url mumbai --broadcast -vvvv
+```
+
+## 19. ERC-721 Mint 위임하기
+
+```bash
+$ forge script script/19/ERC20Mintable.s.sol --rpc-url mumbai --broadcast -vvvv
+```
+
+## 20. ERC-721 Mint 위임하기(Auto Increment Ids)
+
+```bash
+$ forge script script/20/ERC20Mintable2.s.sol --rpc-url mumbai --broadcast -vvvv
+```
+
 ## 21. Run With ABI
 
-- `cast` 명령어를 사용하여 스마트 컨트랙트의 런타임 바이트코드로부터 함수 선택자와 파라미터 타입을 확인합니다.
+- `cast selectors` 명령어를 사용하여 스마트 컨트랙트의 런타임 바이트코드로부터 함수 선택자와 파라미터 타입을 확인합니다.
 
 ```bash
 $ cast selectors $(cast code 0x9843A771650a28de6d9ba52C38ca37F8870989c2 --rpc-url mumbai)
@@ -103,7 +187,7 @@ $ forge script script/21/RunWithABI.s.sol --rpc-url mumbai --broadcast -vvvv
 
 ## 22. Private Value 찾기
 
-- `cast` 명령어를 사용하여 스마트 컨트랙트 스토리지의 `0`번째 슬롯에 저장된 값을 확인합니다.
+- `cast storage` 명령어를 사용하여 스마트 컨트랙트 스토리지의 `0`번째 슬롯에 저장된 값을 확인합니다.
 
 ```bash
 $ cast storage 0xbE1DdAB9F36100ca9c51ce44BF3A61637fc3c355 0 --rpc-url mumbai
@@ -116,7 +200,7 @@ $ forge script script/22/FindPrivateValue.s.sol --rpc-url mumbai --broadcast -vv
 
 ## 23. Run With ABI2 : Delegation of Authority
 
-- `cast` 명령어를 사용하여 스마트 컨트랙트의 런타임 바이트코드로부터 함수 선택자와 파라미터 타입을 확인합니다.
+- `cast selectors` 명령어를 사용하여 스마트 컨트랙트의 런타임 바이트코드로부터 함수 선택자와 파라미터 타입을 확인합니다.
 
 ```bash
 $ cast selectors $(cast code 0xF8E07835C94aC985821d45B0a468679790035683 --rpc-url mumbai)
