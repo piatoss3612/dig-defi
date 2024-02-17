@@ -48,3 +48,6 @@
 [submodule "web3oj/lib/openzeppelin-contracts"]
 	path = web3oj/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "yul-erc20/lib/forge-std"]
+	path = yul-erc20/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
