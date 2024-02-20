@@ -30,15 +30,6 @@
 [submodule "ethernaut/lib/openzeppelin-contracts"]
 	path = ethernaut/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
-[submodule "layerzero-v2/lib/forge-std"]
-	path = layerzero-v2/lib/forge-std
-	url = https://github.com/foundry-rs/forge-std
-[submodule "layerzero-v2/lib/LayerZero-v2"]
-	path = layerzero-v2/lib/LayerZero-v2
-	url = https://github.com/LayerZero-Labs/LayerZero-v2
-[submodule "layerzero-v2/lib/openzeppelin-contracts"]
-	path = layerzero-v2/lib/openzeppelin-contracts
-	url = https://github.com/OpenZeppelin/openzeppelin-contracts
 [submodule "web3oj/lib/forge-std"]
 	path = web3oj/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
