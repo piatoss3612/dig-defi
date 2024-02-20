@@ -1,5 +1,5 @@
-[submodule "uniswap-v2-core/lib/forge-std"]
-	path = uniswap-v2-core/lib/forge-std
+[submodule "uniswap-v2/lib/forge-std"]
+	path = uniswap-v2/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
 [submodule "layerzero-v1-swap/lib/forge-std"]
 	path = layerzero-v1-swap/lib/forge-std
