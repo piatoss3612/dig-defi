@@ -9,7 +9,7 @@ import "./interfaces/IERC20.sol";
 import "./interfaces/IUniswapV2Factory.sol";
 import "./interfaces/IUniswapV2Callee.sol";
 
-contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
+/*IUniswapV2Pair,*/ contract UniswapV2Pair is UniswapV2ERC20 {
     using SafeMath for uint;
     using UQ112x112 for uint224;
 
@@ -29,6 +29,24 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
     uint public price0CumulativeLast; // 토큰0의 누적 가격
     uint public price1CumulativeLast; // 토큰1의 누적 가격
     uint public kLast; // 마지막으로 유동성 풀이 업데이트된 이후의 상수 k
+
+    // IUniswapV2Pair 인터페이스의 이벤트
+    event Mint(address indexed sender, uint amount0, uint amount1); // Mint 이벤트 (sender가 amount0만큼의 token0과 amount1만큼의 token1을 유동성 풀에 추가)
+    event Burn(
+        address indexed sender,
+        uint amount0,
+        uint amount1,
+        address indexed to
+    ); // Burn 이벤트 (sender가 amount0만큼의 token0과 amount1만큼의 token1을 유동성 풀에서 인출)
+    event Swap(
+        address indexed sender,
+        uint amount0In,
+        uint amount1In,
+        uint amount0Out,
+        uint amount1Out,
+        address indexed to
+    ); // Swap 이벤트 (sender가 amount0In만큼의 token0과 amount1In만큼의 token1을 유동성 풀에 추가하고, amount0Out만큼의 token0과 amount1Out만큼의 token1을 유동성 풀에서 인출)
+    event Sync(uint112 reserve0, uint112 reserve1); // Sync 이벤트 (reserve0와 reserve1을 동기화)
 
     // Reentrancy Guard
     uint private unlocked = 1;
