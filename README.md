@@ -6,6 +6,7 @@
 
 ## Table of Contents
 
+- Damn Vulnerable DeFi Foundry: A collection of DeFi vulnerabilities and attacks
 - Ethernaut: War game for smart contract hacking
 - Web3OJ: Web3 online judge
 - Hyperlane V3: Chain interoperability platform
