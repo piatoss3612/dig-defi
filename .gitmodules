@@ -39,3 +39,6 @@
 [submodule "yul-erc20/lib/forge-std"]
 	path = yul-erc20/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "uniswap-v2/lib/openzeppelin-contracts"]
+	path = uniswap-v2/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
