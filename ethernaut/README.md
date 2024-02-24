@@ -27,7 +27,7 @@
 | 21. Shop             | ★★☆☆☆ | https://piatoss3612.tistory.com/117 |
 | 22. Dex              | ★★☆☆☆ | https://piatoss3612.tistory.com/121 |
 | 23. Dex Two          | ★★☆☆☆ | https://piatoss3612.tistory.com/122 |
-| 24. Puzzle Wallet    | ★★★★☆ |                                     |
+| 24. Puzzle Wallet    | ★★★★☆ | https://piatoss3612.tistory.com/141 |
 | 25. Motorbike        | ★★★☆☆ | https://piatoss3612.tistory.com/138 |
 | 26. DoubleEntryPoint | ★★☆☆☆ | https://piatoss3612.tistory.com/140 |
 | 27. GoodSamaritan    | ★★★☆☆ | https://piatoss3612.tistory.com/123 |

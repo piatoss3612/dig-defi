@@ -22,24 +22,3 @@ contract DestroyEngineScript is Script {
         vm.stopBroadcast();
     }
 }
-
-
-contract MotorbikeScript is Script {
-    function setUp() public {}
-
-    function run() public {
-        uint256 privateKey = vm.envUint("PRIVATE_KEY");
-
-        vm.startBroadcast(privateKey);
-
-        address motorbike =0x451CdAf0f145401984c38a5D2Cb73d5b43CeDADF;
-
-        bytes memory code = motorbike.code;
-
-        if (code.length > 0) {
-            console.log("Level not cleared");
-        }
-
-        vm.stopBroadcast();
-    }
-}
