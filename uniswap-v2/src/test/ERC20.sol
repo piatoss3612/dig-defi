@@ -10,7 +10,7 @@ contract UniswapV2ERC20WithMint is UniswapV2ERC20 {
 }
 
 contract ERC20 is UniswapV2ERC20WithMint {
-    constructor(uint _totalSupply) {
+    constructor(uint256 _totalSupply) {
         _mint(msg.sender, _totalSupply);
     }
 }

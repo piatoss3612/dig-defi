@@ -16,7 +16,7 @@ contract UniswapV2Factory is IUniswapV2Factory {
     }
 
     // UniswapV2Pair 인스턴스의 개수를 반환
-    function allPairsLength() external view returns (uint) {
+    function allPairsLength() external view returns (uint256) {
         return allPairs.length;
     }
 
@@ -26,14 +26,9 @@ contract UniswapV2Factory is IUniswapV2Factory {
         address tokenB // 토큰 B의 주소
     ) external returns (address pair) {
         require(tokenA != tokenB, "UniswapV2: IDENTICAL_ADDRESSES"); // 토큰 A와 토큰 B의 주소가 같으면 에러
-        (address token0, address token1) = tokenA < tokenB
-            ? (tokenA, tokenB)
-            : (tokenB, tokenA); // 토큰 A와 토큰 B의 주소를 오름차순으로 정렬
+        (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA); // 토큰 A와 토큰 B의 주소를 오름차순으로 정렬
         require(token0 != address(0), "UniswapV2: ZERO_ADDRESS"); // 토큰 A의 주소가 0이면 에러
-        require(
-            getPair[token0][token1] == address(0),
-            "UniswapV2: PAIR_EXISTS"
-        ); // 토큰 A와 토큰 B의 쌍이 이미 존재하면 에러 (반대의 경우는 이미 정렬되어 있으므로 체크할 필요 없음)
+        require(getPair[token0][token1] == address(0), "UniswapV2: PAIR_EXISTS"); // 토큰 A와 토큰 B의 쌍이 이미 존재하면 에러 (반대의 경우는 이미 정렬되어 있으므로 체크할 필요 없음)
         bytes memory bytecode = type(UniswapV2Pair).creationCode; // UniswapV2Pair 컨트랙트의 bytecode를 가져옴
         bytes32 salt = keccak256(abi.encodePacked(token0, token1)); // 토큰 A와 토큰 B의 주소를 인자로 해시값을 계산하여 salt로 사용
         assembly {

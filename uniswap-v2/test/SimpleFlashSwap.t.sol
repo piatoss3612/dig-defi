@@ -18,24 +18,20 @@ contract SimpleFlashSwapTest is Test {
     UniswapV2ERC20WithMint public token1;
     SimpleFlashSwap public flashSwap;
 
-    uint public constant INIT_SUPPLY = 1000000e18;
+    uint256 public constant INIT_SUPPLY = 1000000e18;
 
     function setUp() public {
         token0 = new UniswapV2ERC20WithMint();
         token1 = new UniswapV2ERC20WithMint();
 
-        (token0, token1) = token0 < token1
-            ? (token0, token1)
-            : (token1, token0);
+        (token0, token1) = token0 < token1 ? (token0, token1) : (token1, token0);
 
         token0.mint(address(this), INIT_SUPPLY);
         token1.mint(address(this), INIT_SUPPLY);
 
         factory = new UniswapV2Factory(address(this));
         router = new UniswapV2Router01(address(factory), address(0));
-        pair = UniswapV2Pair(
-            factory.createPair(address(token0), address(token1))
-        );
+        pair = UniswapV2Pair(factory.createPair(address(token0), address(token1)));
 
         vm.label(address(token0), "token0");
         vm.label(address(token1), "token1");
@@ -46,7 +42,7 @@ contract SimpleFlashSwapTest is Test {
         token0.approve(address(router), type(uint256).max);
         token1.approve(address(router), type(uint256).max);
 
-        (uint amountA, uint amountB, uint liquidity) = router.addLiquidity(
+        (uint256 amountA, uint256 amountB, uint256 liquidity) = router.addLiquidity(
             address(token0),
             address(token1),
             INIT_SUPPLY / 2,
@@ -114,10 +110,7 @@ contract SimpleFlashSwapTest is Test {
         address tokenBorrow = address(token0);
         address tokenRepay = address(token1);
         uint256 amount = 100000e18;
-        uint256 repayAmount = flashSwap.repayWithDifferentToken(
-            tokenBorrow,
-            amount
-        );
+        uint256 repayAmount = flashSwap.repayWithDifferentToken(tokenBorrow, amount);
 
         uint256 flashToken0Before = token0.balanceOf(address(flashSwap));
         uint256 flashToken1Before = token1.balanceOf(address(flashSwap));
@@ -142,10 +135,7 @@ contract SimpleFlashSwapTest is Test {
         address tokenBorrow = address(token1);
         address tokenRepay = address(token0);
         uint256 amount = 100000e18;
-        uint256 repayAmount = flashSwap.repayWithDifferentToken(
-            tokenBorrow,
-            amount
-        );
+        uint256 repayAmount = flashSwap.repayWithDifferentToken(tokenBorrow, amount);
 
         uint256 flashToken0Before = token0.balanceOf(address(flashSwap));
         uint256 flashToken1Before = token1.balanceOf(address(flashSwap));

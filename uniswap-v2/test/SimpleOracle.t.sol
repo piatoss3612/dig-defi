@@ -18,24 +18,20 @@ contract SimpleOracleTest is Test {
     UniswapV2ERC20WithMint public token1;
     SimpleOracle public oracle;
 
-    uint public constant INIT_SUPPLY = 1000000e18;
+    uint256 public constant INIT_SUPPLY = 1000000e18;
 
     function setUp() public {
         token0 = new UniswapV2ERC20WithMint();
         token1 = new UniswapV2ERC20WithMint();
 
-        (token0, token1) = token0 < token1
-            ? (token0, token1)
-            : (token1, token0);
+        (token0, token1) = token0 < token1 ? (token0, token1) : (token1, token0);
 
         token0.mint(address(this), INIT_SUPPLY);
         token1.mint(address(this), INIT_SUPPLY);
 
         factory = new UniswapV2Factory(address(this));
         router = new UniswapV2Router01(address(factory), address(0));
-        pair = UniswapV2Pair(
-            factory.createPair(address(token0), address(token1))
-        );
+        pair = UniswapV2Pair(factory.createPair(address(token0), address(token1)));
 
         vm.label(address(token0), "token0");
         vm.label(address(token1), "token1");
@@ -46,7 +42,7 @@ contract SimpleOracleTest is Test {
         token0.approve(address(router), type(uint256).max);
         token1.approve(address(router), type(uint256).max);
 
-        (uint amountA, uint amountB, uint liquidity) = router.addLiquidity(
+        (uint256 amountA, uint256 amountB, uint256 liquidity) = router.addLiquidity(
             address(token0),
             address(token1),
             INIT_SUPPLY / 2,
@@ -66,15 +62,15 @@ contract SimpleOracleTest is Test {
     }
 
     function test_Update() public {
-        uint price0CumulativeLast = oracle.price0CumulativeLast();
-        uint price1CumulativeLast = oracle.price1CumulativeLast();
+        uint256 price0CumulativeLast = oracle.price0CumulativeLast();
+        uint256 price1CumulativeLast = oracle.price1CumulativeLast();
         uint32 blockTimestampLast = oracle.blockTimestampLast();
 
         assertEq(price0CumulativeLast, 0);
         assertEq(price1CumulativeLast, 0);
         assertEq(blockTimestampLast, block.timestamp);
 
-        uint amount1Out = oracle.consult(address(token0), 1000e18);
+        uint256 amount1Out = oracle.consult(address(token0), 1000e18);
 
         assertEq(amount1Out, 0);
 
@@ -84,13 +80,7 @@ contract SimpleOracleTest is Test {
         address[] memory path = new address[](2);
         path[0] = address(token0);
         path[1] = address(token1);
-        router.swapExactTokensForTokens(
-            1000e18,
-            0,
-            path,
-            address(this),
-            block.timestamp + 1000
-        );
+        router.swapExactTokensForTokens(1000e18, 0, path, address(this), block.timestamp + 1000);
 
         oracle.update();
 
@@ -101,17 +91,11 @@ contract SimpleOracleTest is Test {
         vm.warp(block.timestamp + oracle.PERIOD());
         vm.roll(block.number + 1);
 
-        router.swapExactTokensForTokens(
-            1000e18,
-            0,
-            path,
-            address(this),
-            block.timestamp + 1000
-        );
+        router.swapExactTokensForTokens(1000e18, 0, path, address(this), block.timestamp + 1000);
 
         oracle.update();
 
-        uint newAmount1Out = oracle.consult(address(token0), 1000e18);
+        uint256 newAmount1Out = oracle.consult(address(token0), 1000e18);
 
         assertGt(amount1Out, newAmount1Out);
         assertGt(newAmount1Out, 0);

@@ -29,22 +29,17 @@ contract UniswapV2Router01Test is Test {
     uint256 playerPrivateKey;
     address player;
 
-    event Transfer(address indexed from, address indexed to, uint value);
-    event Deposit(address indexed dst, uint wad);
-    event Withdrawal(address indexed src, uint wad);
-    event Mint(address indexed sender, uint amount0, uint amount1);
-    event Burn(
-        address indexed sender,
-        uint amount0,
-        uint amount1,
-        address indexed to
-    );
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Deposit(address indexed dst, uint256 wad);
+    event Withdrawal(address indexed src, uint256 wad);
+    event Mint(address indexed sender, uint256 amount0, uint256 amount1);
+    event Burn(address indexed sender, uint256 amount0, uint256 amount1, address indexed to);
     event Swap(
         address indexed sender,
-        uint amount0In,
-        uint amount1In,
-        uint amount0Out,
-        uint amount1Out,
+        uint256 amount0In,
+        uint256 amount1In,
+        uint256 amount0Out,
+        uint256 amount1Out,
         address indexed to
     );
     event Sync(uint112 reserve0, uint112 reserve1);
@@ -62,20 +57,14 @@ contract UniswapV2Router01Test is Test {
 
         token0 = new MockToken("MockToken", "MT");
         token1 = new MockToken("MockToken", "MT");
-        (token0, token1) = token0 < token1
-            ? (token0, token1)
-            : (token1, token0);
+        (token0, token1) = token0 < token1 ? (token0, token1) : (token1, token0);
 
         weth = new MockWETH();
         wethPartner = new MockToken("WETH Pair", "WP");
         factory = new UniswapV2Factory(feeToSetter);
         router = new UniswapV2Router01(address(factory), address(weth));
-        pair = UniswapV2Pair(
-            factory.createPair(address(token0), address(token1))
-        );
-        wethPair = UniswapV2Pair(
-            factory.createPair(address(weth), address(wethPartner))
-        );
+        pair = UniswapV2Pair(factory.createPair(address(token0), address(token1)));
+        wethPair = UniswapV2Pair(factory.createPair(address(weth), address(wethPartner)));
 
         vm.label(feeToSetter, "Fee To Setter");
         vm.label(player, "Player");
@@ -94,10 +83,10 @@ contract UniswapV2Router01Test is Test {
     }
 
     function test_AddLiquidity() public {
-        uint token0Amount = utils.expandTo18Decimals(1);
-        uint token1Amount = utils.expandTo18Decimals(4);
+        uint256 token0Amount = utils.expandTo18Decimals(1);
+        uint256 token1Amount = utils.expandTo18Decimals(4);
 
-        uint expectedLiquidity = utils.expandTo18Decimals(2);
+        uint256 expectedLiquidity = utils.expandTo18Decimals(2);
 
         vm.startPrank(player);
         token0.approve(address(router), MAX);
@@ -110,25 +99,14 @@ contract UniswapV2Router01Test is Test {
         vm.expectEmit(true, true, true, true, address(pair));
         emit Transfer(ZERO_ADDRESS, ZERO_ADDRESS, MINIMUM_LIQUIDITY);
         vm.expectEmit(true, true, true, true, address(pair));
-        emit Transfer(
-            ZERO_ADDRESS,
-            player,
-            expectedLiquidity - MINIMUM_LIQUIDITY
-        );
+        emit Transfer(ZERO_ADDRESS, player, expectedLiquidity - MINIMUM_LIQUIDITY);
         vm.expectEmit(true, true, true, true, address(pair));
         emit Sync(uint112(token0Amount), uint112(token1Amount));
         vm.expectEmit(true, true, true, true, address(pair));
         emit Mint(address(router), token0Amount, token1Amount);
 
-        (uint amount0, uint amount1, uint liquidity) = router.addLiquidity(
-            address(token0),
-            address(token1),
-            token0Amount,
-            token1Amount,
-            0,
-            0,
-            player,
-            block.timestamp + 100
+        (uint256 amount0, uint256 amount1, uint256 liquidity) = router.addLiquidity(
+            address(token0), address(token1), token0Amount, token1Amount, 0, 0, player, block.timestamp + 100
         );
 
         vm.stopPrank();
@@ -160,39 +138,21 @@ contract UniswapV2Router01Test is Test {
         vm.expectEmit(true, true, true, true, address(wethPair));
         emit Transfer(ZERO_ADDRESS, ZERO_ADDRESS, MINIMUM_LIQUIDITY);
         vm.expectEmit(true, true, true, true, address(wethPair));
-        emit Transfer(
-            ZERO_ADDRESS,
-            player,
-            expectedLiquidity - MINIMUM_LIQUIDITY
-        );
+        emit Transfer(ZERO_ADDRESS, player, expectedLiquidity - MINIMUM_LIQUIDITY);
         vm.expectEmit(true, true, true, true, address(wethPair));
         emit Sync(
-            wethPairToken0 == address(wethPartner)
-                ? uint112(wethPartnerAmount)
-                : uint112(ethAmount),
-            wethPairToken0 == address(wethPartner)
-                ? uint112(ethAmount)
-                : uint112(wethPartnerAmount)
+            wethPairToken0 == address(wethPartner) ? uint112(wethPartnerAmount) : uint112(ethAmount),
+            wethPairToken0 == address(wethPartner) ? uint112(ethAmount) : uint112(wethPartnerAmount)
         );
         vm.expectEmit(true, true, true, true, address(wethPair));
         emit Mint(
             address(router),
-            wethPairToken0 == address(wethPartner)
-                ? wethPartnerAmount
-                : ethAmount,
-            wethPairToken0 == address(wethPartner)
-                ? ethAmount
-                : wethPartnerAmount
+            wethPairToken0 == address(wethPartner) ? wethPartnerAmount : ethAmount,
+            wethPairToken0 == address(wethPartner) ? ethAmount : wethPartnerAmount
         );
 
-        (uint amountToken, uint amountETH, uint liquidity) = router
-            .addLiquidityETH{value: ethAmount}(
-            address(wethPartner),
-            wethPartnerAmount,
-            0,
-            0,
-            address(player),
-            block.timestamp + 100
+        (uint256 amountToken, uint256 amountETH, uint256 liquidity) = router.addLiquidityETH{value: ethAmount}(
+            address(wethPartner), wethPartnerAmount, 0, 0, address(player), block.timestamp + 100
         );
 
         vm.stopPrank();
@@ -200,10 +160,7 @@ contract UniswapV2Router01Test is Test {
         assertEq(amountToken, wethPartnerAmount);
         assertEq(amountETH, ethAmount);
         assertEq(liquidity, expectedLiquidity - MINIMUM_LIQUIDITY);
-        assertEq(
-            wethPair.balanceOf(player),
-            expectedLiquidity - MINIMUM_LIQUIDITY
-        );
+        assertEq(wethPair.balanceOf(player), expectedLiquidity - MINIMUM_LIQUIDITY);
     }
 
     function test_RemoveLiquidity() public {
@@ -218,17 +175,9 @@ contract UniswapV2Router01Test is Test {
         pair.approve(address(router), MAX);
 
         vm.expectEmit(true, true, true, true, address(pair));
-        emit Transfer(
-            player,
-            address(pair),
-            expectedLiquidity - MINIMUM_LIQUIDITY
-        );
+        emit Transfer(player, address(pair), expectedLiquidity - MINIMUM_LIQUIDITY);
         vm.expectEmit(true, true, true, true, address(pair));
-        emit Transfer(
-            address(pair),
-            ZERO_ADDRESS,
-            expectedLiquidity - MINIMUM_LIQUIDITY
-        );
+        emit Transfer(address(pair), ZERO_ADDRESS, expectedLiquidity - MINIMUM_LIQUIDITY);
         vm.expectEmit(true, true, true, true, address(token0));
         emit Transfer(address(pair), player, token0Amount - 500);
         vm.expectEmit(true, true, true, true, address(token1));
@@ -236,21 +185,10 @@ contract UniswapV2Router01Test is Test {
         vm.expectEmit(true, true, true, true, address(pair));
         emit Sync(uint112(500), uint112(2000));
         vm.expectEmit(true, true, true, true, address(pair));
-        emit Burn(
-            address(router),
-            token0Amount - 500,
-            token1Amount - 2000,
-            player
-        );
+        emit Burn(address(router), token0Amount - 500, token1Amount - 2000, player);
 
-        (uint amountA, uint amountB) = router.removeLiquidity(
-            address(token0),
-            address(token1),
-            expectedLiquidity - MINIMUM_LIQUIDITY,
-            0,
-            0,
-            player,
-            block.timestamp + 100
+        (uint256 amountA, uint256 amountB) = router.removeLiquidity(
+            address(token0), address(token1), expectedLiquidity - MINIMUM_LIQUIDITY, 0, 0, player, block.timestamp + 100
         );
 
         vm.stopPrank();
@@ -275,43 +213,23 @@ contract UniswapV2Router01Test is Test {
         wethPair.approve(address(router), MAX);
 
         vm.expectEmit(true, true, true, true, address(wethPair));
-        emit Transfer(
-            player,
-            address(wethPair),
-            expectedLiquidity - MINIMUM_LIQUIDITY
-        );
+        emit Transfer(player, address(wethPair), expectedLiquidity - MINIMUM_LIQUIDITY);
         vm.expectEmit(true, true, true, true, address(wethPair));
-        emit Transfer(
-            address(wethPair),
-            ZERO_ADDRESS,
-            expectedLiquidity - MINIMUM_LIQUIDITY
-        );
+        emit Transfer(address(wethPair), ZERO_ADDRESS, expectedLiquidity - MINIMUM_LIQUIDITY);
         vm.expectEmit(true, true, true, true, address(weth));
         emit Transfer(address(wethPair), address(router), ethAmount - 2000);
         vm.expectEmit(true, true, true, true, address(wethPartner));
-        emit Transfer(
-            address(wethPair),
-            address(router),
-            wethPartnerAmount - 500
-        );
+        emit Transfer(address(wethPair), address(router), wethPartnerAmount - 500);
         vm.expectEmit(true, true, true, true, address(wethPair));
         emit Sync(
-            wethPairToken0 == address(wethPartner)
-                ? uint112(500)
-                : uint112(2000),
-            wethPairToken0 == address(wethPartner)
-                ? uint112(2000)
-                : uint112(500)
+            wethPairToken0 == address(wethPartner) ? uint112(500) : uint112(2000),
+            wethPairToken0 == address(wethPartner) ? uint112(2000) : uint112(500)
         );
         vm.expectEmit(true, true, true, true, address(wethPair));
         emit Burn(
             address(router),
-            wethPairToken0 == address(wethPartner)
-                ? wethPartnerAmount - 500
-                : ethAmount - 2000,
-            wethPairToken0 == address(wethPartner)
-                ? ethAmount - 2000
-                : wethPartnerAmount - 500,
+            wethPairToken0 == address(wethPartner) ? wethPartnerAmount - 500 : ethAmount - 2000,
+            wethPairToken0 == address(wethPartner) ? ethAmount - 2000 : wethPartnerAmount - 500,
             address(router)
         );
         vm.expectEmit(true, true, true, true, address(wethPartner));
@@ -319,13 +237,8 @@ contract UniswapV2Router01Test is Test {
         vm.expectEmit(true, true, true, true, address(weth));
         emit Withdrawal(address(router), ethAmount - 2000);
 
-        (uint amountToken, uint amountETH) = router.removeLiquidityETH(
-            address(wethPartner),
-            expectedLiquidity - MINIMUM_LIQUIDITY,
-            0,
-            0,
-            player,
-            block.timestamp + 100
+        (uint256 amountToken, uint256 amountETH) = router.removeLiquidityETH(
+            address(wethPartner), expectedLiquidity - MINIMUM_LIQUIDITY, 0, 0, player, block.timestamp + 100
         );
 
         vm.stopPrank();
@@ -334,10 +247,7 @@ contract UniswapV2Router01Test is Test {
         assertEq(amountETH, ethAmount - 2000);
         assertEq(wethPair.balanceOf(player), 0);
         assertEq(weth.balanceOf(player), 0);
-        assertEq(
-            wethPartner.balanceOf(player),
-            utils.expandTo18Decimals(10000) - 500
-        );
+        assertEq(wethPartner.balanceOf(player), utils.expandTo18Decimals(10000) - 500);
         assertEq(player.balance, utils.expandTo18Decimals(100) - 2000);
     }
 
@@ -440,27 +350,11 @@ contract UniswapV2Router01Test is Test {
         vm.expectEmit(true, true, true, true, address(token1));
         emit Transfer(address(pair), player, expectedOutputAmount);
         vm.expectEmit(true, true, true, true, address(pair));
-        emit Sync(
-            uint112(token0Amount + swapAmount),
-            uint112(token1Amount - expectedOutputAmount)
-        );
+        emit Sync(uint112(token0Amount + swapAmount), uint112(token1Amount - expectedOutputAmount));
         vm.expectEmit(true, true, true, true, address(pair));
-        emit Swap(
-            address(router),
-            swapAmount,
-            0,
-            0,
-            expectedOutputAmount,
-            player
-        );
+        emit Swap(address(router), swapAmount, 0, 0, expectedOutputAmount, player);
 
-        uint[] memory amounts = router.swapExactTokensForTokens(
-            swapAmount,
-            0,
-            path,
-            player,
-            MAX
-        );
+        uint256[] memory amounts = router.swapExactTokensForTokens(swapAmount, 0, path, player, MAX);
 
         vm.stopPrank();
 
@@ -487,27 +381,11 @@ contract UniswapV2Router01Test is Test {
         vm.expectEmit(true, true, true, true, address(token1));
         emit Transfer(address(pair), player, outputAmount);
         vm.expectEmit(true, true, true, true, address(pair));
-        emit Sync(
-            uint112(token0Amount + expectedSwapAmount),
-            uint112(token1Amount - outputAmount)
-        );
+        emit Sync(uint112(token0Amount + expectedSwapAmount), uint112(token1Amount - outputAmount));
         vm.expectEmit(true, true, true, true, address(pair));
-        emit Swap(
-            address(router),
-            expectedSwapAmount,
-            0,
-            0,
-            outputAmount,
-            player
-        );
+        emit Swap(address(router), expectedSwapAmount, 0, 0, outputAmount, player);
 
-        uint[] memory amounts = router.swapTokensForExactTokens(
-            outputAmount,
-            MAX,
-            path,
-            player,
-            MAX
-        );
+        uint256[] memory amounts = router.swapTokensForExactTokens(outputAmount, MAX, path, player, MAX);
 
         vm.stopPrank();
 
@@ -559,12 +437,7 @@ contract UniswapV2Router01Test is Test {
             player
         );
 
-        uint[] memory amounts = router.swapExactETHForTokens{value: swapAmount}(
-            0,
-            path,
-            player,
-            MAX
-        );
+        uint256[] memory amounts = router.swapExactETHForTokens{value: swapAmount}(0, path, player, MAX);
 
         vm.stopPrank();
 
@@ -618,13 +491,7 @@ contract UniswapV2Router01Test is Test {
         vm.expectEmit(true, true, true, true, address(weth));
         emit Withdrawal(address(router), outputAmount);
 
-        uint[] memory amounts = router.swapTokensForExactETH(
-            outputAmount,
-            MAX,
-            path,
-            player,
-            MAX
-        );
+        uint256[] memory amounts = router.swapTokensForExactETH(outputAmount, MAX, path, player, MAX);
 
         vm.stopPrank();
 
@@ -678,13 +545,7 @@ contract UniswapV2Router01Test is Test {
         vm.expectEmit(true, true, true, true, address(weth));
         emit Withdrawal(address(router), expectedOutputAmount);
 
-        uint[] memory amounts = router.swapExactTokensForETH(
-            swapAmount,
-            0,
-            path,
-            player,
-            MAX
-        );
+        uint256[] memory amounts = router.swapExactTokensForETH(swapAmount, 0, path, player, MAX);
 
         vm.stopPrank();
 
@@ -736,9 +597,8 @@ contract UniswapV2Router01Test is Test {
             player
         );
 
-        uint[] memory amounts = router.swapETHForExactTokens{
-            value: expectedSwapAmount
-        }(outputAmount, path, player, MAX);
+        uint256[] memory amounts =
+            router.swapETHForExactTokens{value: expectedSwapAmount}(outputAmount, path, player, MAX);
 
         vm.stopPrank();
 
@@ -751,16 +611,7 @@ contract UniswapV2Router01Test is Test {
         token0.approve(address(router), MAX);
         token1.approve(address(router), MAX);
 
-        router.addLiquidity(
-            address(token0),
-            address(token1),
-            amount0,
-            amount1,
-            0,
-            0,
-            player,
-            block.timestamp + 100
-        );
+        router.addLiquidity(address(token0), address(token1), amount0, amount1, 0, 0, player, block.timestamp + 100);
         vm.stopPrank();
     }
 }

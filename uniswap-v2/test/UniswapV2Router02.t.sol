@@ -44,9 +44,7 @@ contract UniswapV2Router02Test is Test {
         factory = new UniswapV2Factory(address(0));
         router = new UniswapV2Router02(address(factory), address(weth));
         pair = UniswapV2Pair(factory.createPair(address(dtt), address(weth)));
-        dttPair = UniswapV2Pair(
-            factory.createPair(address(dtt), address(dtt2))
-        );
+        dttPair = UniswapV2Pair(factory.createPair(address(dtt), address(dtt2)));
 
         vm.label(address(dtt), "DeflatingERC20");
         vm.label(address(dtt2), "DeflatingERC20");
@@ -63,14 +61,7 @@ contract UniswapV2Router02Test is Test {
         vm.startPrank(player);
         dtt.approve(address(router), dttAmount);
 
-        router.addLiquidityETH{value: wethAmount}(
-            address(dtt),
-            dttAmount,
-            dttAmount,
-            wethAmount,
-            player,
-            MAX
-        );
+        router.addLiquidityETH{value: wethAmount}(address(dtt), dttAmount, dttAmount, wethAmount, player, MAX);
 
         uint256 dttInPair = dtt.balanceOf(address(pair));
         uint256 wethInPair = weth.balanceOf(address(pair));
@@ -82,20 +73,13 @@ contract UniswapV2Router02Test is Test {
         pair.approve(address(router), MAX);
 
         router.removeLiquidityETHSupportingFeeOnTransferTokens(
-            address(dtt),
-            liquidity,
-            naiveDttExpected,
-            wethExpected,
-            player,
-            MAX
+            address(dtt), liquidity, naiveDttExpected, wethExpected, player, MAX
         );
 
         vm.stopPrank();
     }
 
-    function test_RemoveLiquidityETHWithPermitSupportingFeeOnTransferTokens()
-        public
-    {
+    function test_RemoveLiquidityETHWithPermitSupportingFeeOnTransferTokens() public {
         uint256 dttAmount = (utils.expandTo18Decimals(1) * 100) / 99;
         uint256 wethAmount = utils.expandTo18Decimals(4);
 
@@ -103,14 +87,7 @@ contract UniswapV2Router02Test is Test {
 
         dtt.approve(address(router), dttAmount);
 
-        router.addLiquidityETH{value: wethAmount}(
-            address(dtt),
-            dttAmount,
-            dttAmount,
-            wethAmount,
-            player,
-            MAX
-        );
+        router.addLiquidityETH{value: wethAmount}(address(dtt), dttAmount, dttAmount, wethAmount, player, MAX);
 
         uint256 expectedLiquidity = utils.expandTo18Decimals(2);
 
@@ -137,24 +114,13 @@ contract UniswapV2Router02Test is Test {
         pair.approve(address(router), MAX);
 
         router.removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(
-            address(dtt),
-            liquidity,
-            naiveDttExpected,
-            wethExpected,
-            player,
-            MAX,
-            false,
-            v,
-            r,
-            s
+            address(dtt), liquidity, naiveDttExpected, wethExpected, player, MAX, false, v, r, s
         );
 
         vm.stopPrank();
     }
 
-    function swapExactTokensForTokensSupportingFeeOnTransferTokensDTTToWETH()
-        public
-    {
+    function swapExactTokensForTokensSupportingFeeOnTransferTokensDTTToWETH() public {
         uint256 dttAmount = (utils.expandTo18Decimals(5) * 100) / 99;
         uint256 ethAmount = utils.expandTo18Decimals(10);
         uint256 amountIn = utils.expandTo18Decimals(1);
@@ -163,14 +129,7 @@ contract UniswapV2Router02Test is Test {
 
         dtt.approve(address(router), dttAmount);
 
-        router.addLiquidityETH{value: ethAmount}(
-            address(dtt),
-            dttAmount,
-            dttAmount,
-            ethAmount,
-            player,
-            MAX
-        );
+        router.addLiquidityETH{value: ethAmount}(address(dtt), dttAmount, dttAmount, ethAmount, player, MAX);
 
         dtt.approve(address(router), MAX);
 
@@ -178,18 +137,10 @@ contract UniswapV2Router02Test is Test {
         path[0] = address(dtt);
         path[1] = address(weth);
 
-        router.swapExactTokensForTokensSupportingFeeOnTransferTokens(
-            amountIn,
-            0,
-            path,
-            player,
-            MAX
-        );
+        router.swapExactTokensForTokensSupportingFeeOnTransferTokens(amountIn, 0, path, player, MAX);
     }
 
-    function swapExactTokensForTokensSupportingFeeOnTransferTokensWETHToDTT()
-        public
-    {
+    function swapExactTokensForTokensSupportingFeeOnTransferTokensWETHToDTT() public {
         uint256 dttAmount = (utils.expandTo18Decimals(5) * 100) / 99;
         uint256 ethAmount = utils.expandTo18Decimals(10);
         uint256 amountIn = utils.expandTo18Decimals(1);
@@ -198,14 +149,7 @@ contract UniswapV2Router02Test is Test {
 
         dtt.approve(address(router), dttAmount);
 
-        router.addLiquidityETH{value: ethAmount}(
-            address(dtt),
-            dttAmount,
-            dttAmount,
-            ethAmount,
-            player,
-            MAX
-        );
+        router.addLiquidityETH{value: ethAmount}(address(dtt), dttAmount, dttAmount, ethAmount, player, MAX);
 
         weth.approve(address(router), MAX);
 
@@ -213,18 +157,10 @@ contract UniswapV2Router02Test is Test {
         path[0] = address(weth);
         path[1] = address(dtt);
 
-        router.swapExactTokensForTokensSupportingFeeOnTransferTokens(
-            amountIn,
-            0,
-            path,
-            player,
-            MAX
-        );
+        router.swapExactTokensForTokensSupportingFeeOnTransferTokens(amountIn, 0, path, player, MAX);
     }
 
-    function swapExactETHForTokensSupportingFeeOnTransferTokensETHToDTT()
-        public
-    {
+    function swapExactETHForTokensSupportingFeeOnTransferTokensETHToDTT() public {
         uint256 dttAmount = (utils.expandTo18Decimals(10) * 100) / 99;
         uint256 ethAmount = utils.expandTo18Decimals(5);
         uint256 swapAmount = utils.expandTo18Decimals(1);
@@ -233,27 +169,16 @@ contract UniswapV2Router02Test is Test {
 
         dtt.approve(address(router), dttAmount);
 
-        router.addLiquidityETH{value: ethAmount}(
-            address(dtt),
-            dttAmount,
-            dttAmount,
-            ethAmount,
-            player,
-            MAX
-        );
+        router.addLiquidityETH{value: ethAmount}(address(dtt), dttAmount, dttAmount, ethAmount, player, MAX);
 
         address[] memory path = new address[](2);
         path[0] = address(weth);
         path[1] = address(dtt);
 
-        router.swapExactETHForTokensSupportingFeeOnTransferTokens{
-            value: swapAmount
-        }(0, path, player, MAX);
+        router.swapExactETHForTokensSupportingFeeOnTransferTokens{value: swapAmount}(0, path, player, MAX);
     }
 
-    function swapExactTokensForETHSupportingFeeOnTransferTokensDTTToWETH()
-        public
-    {
+    function swapExactTokensForETHSupportingFeeOnTransferTokensDTTToWETH() public {
         uint256 dttAmount = (utils.expandTo18Decimals(5) * 100) / 99;
         uint256 ethAmount = utils.expandTo18Decimals(10);
         uint256 amountIn = utils.expandTo18Decimals(1);
@@ -262,14 +187,7 @@ contract UniswapV2Router02Test is Test {
 
         dtt.approve(address(router), dttAmount);
 
-        router.addLiquidityETH{value: ethAmount}(
-            address(dtt),
-            dttAmount,
-            dttAmount,
-            ethAmount,
-            player,
-            MAX
-        );
+        router.addLiquidityETH{value: ethAmount}(address(dtt), dttAmount, dttAmount, ethAmount, player, MAX);
 
         dtt.approve(address(router), MAX);
 
@@ -277,18 +195,10 @@ contract UniswapV2Router02Test is Test {
         path[0] = address(dtt);
         path[1] = address(weth);
 
-        router.swapExactTokensForETHSupportingFeeOnTransferTokens(
-            amountIn,
-            0,
-            path,
-            player,
-            MAX
-        );
+        router.swapExactTokensForETHSupportingFeeOnTransferTokens(amountIn, 0, path, player, MAX);
     }
 
-    function swapExactTokensForETHSupportingFeeOnTransferTokensDTTToDTT()
-        public
-    {
+    function swapExactTokensForETHSupportingFeeOnTransferTokensDTTToDTT() public {
         uint256 dttAmount = (utils.expandTo18Decimals(5) * 100) / 99;
         uint256 dtt2Amount = utils.expandTo18Decimals(5);
         uint256 amountIn = utils.expandTo18Decimals(1);
@@ -297,16 +207,7 @@ contract UniswapV2Router02Test is Test {
 
         dtt.approve(address(router), dttAmount);
 
-        router.addLiquidity(
-            address(dtt),
-            address(dtt2),
-            dttAmount,
-            dtt2Amount,
-            0,
-            0,
-            player,
-            MAX
-        );
+        router.addLiquidity(address(dtt), address(dtt2), dttAmount, dtt2Amount, 0, 0, player, MAX);
 
         dtt.approve(address(router), MAX);
 
@@ -314,12 +215,6 @@ contract UniswapV2Router02Test is Test {
         path[0] = address(dtt);
         path[1] = address(dtt2);
 
-        router.swapExactTokensForETHSupportingFeeOnTransferTokens(
-            amountIn,
-            0,
-            path,
-            player,
-            MAX
-        );
+        router.swapExactTokensForETHSupportingFeeOnTransferTokens(amountIn, 0, path, player, MAX);
     }
 }

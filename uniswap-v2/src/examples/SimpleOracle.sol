@@ -11,14 +11,14 @@ contract SimpleOracle {
 
     using FixedPoint for *;
 
-    uint public constant PERIOD = 15 seconds;
+    uint256 public constant PERIOD = 15 seconds;
 
     IUniswapV2Pair public immutable pair;
     address public immutable token0;
     address public immutable token1;
 
-    uint public price0CumulativeLast;
-    uint public price1CumulativeLast;
+    uint256 public price0CumulativeLast;
+    uint256 public price1CumulativeLast;
     uint32 public blockTimestampLast;
 
     FixedPoint.uq112x112 public price0Average;
@@ -32,15 +32,12 @@ contract SimpleOracle {
 
         price0CumulativeLast = _pair.price0CumulativeLast();
         price1CumulativeLast = _pair.price1CumulativeLast();
-        (, , blockTimestampLast) = _pair.getReserves();
+        (,, blockTimestampLast) = _pair.getReserves();
     }
 
     function update() external {
-        (
-            uint price0Cumulative,
-            uint price1Cumulative,
-            uint32 blockTimestamp
-        ) = UniswapV2OracleLibrary.currentCumulativePrices(address(pair));
+        (uint256 price0Cumulative, uint256 price1Cumulative, uint32 blockTimestamp) =
+            UniswapV2OracleLibrary.currentCumulativePrices(address(pair));
 
         uint32 timeElapsed = blockTimestamp - blockTimestampLast;
 
@@ -49,12 +46,8 @@ contract SimpleOracle {
         }
 
         unchecked {
-            price0Average = FixedPoint.uq112x112(
-                uint224((price0Cumulative - price0CumulativeLast) / timeElapsed)
-            );
-            price1Average = FixedPoint.uq112x112(
-                uint224((price1Cumulative - price1CumulativeLast) / timeElapsed)
-            );
+            price0Average = FixedPoint.uq112x112(uint224((price0Cumulative - price0CumulativeLast) / timeElapsed));
+            price1Average = FixedPoint.uq112x112(uint224((price1Cumulative - price1CumulativeLast) / timeElapsed));
         }
 
         price0CumulativeLast = price0Cumulative;
@@ -62,10 +55,7 @@ contract SimpleOracle {
         blockTimestampLast = blockTimestamp;
     }
 
-    function consult(
-        address token,
-        uint amountIn
-    ) external view returns (uint amountOut) {
+    function consult(address token, uint256 amountIn) external view returns (uint256 amountOut) {
         if (token == token0) {
             amountOut = price0Average.mul(amountIn).decode144();
         } else if (token == token1) {

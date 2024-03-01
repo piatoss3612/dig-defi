@@ -9,23 +9,18 @@ import {ERC20} from "../src/test/ERC20.sol";
 import "forge-std/Test.sol";
 
 contract UniswapV2ERC20Test is Test {
-    using SafeMath for uint;
+    using SafeMath for uint256;
 
-    event Approval(address indexed owner, address indexed spender, uint value);
-    event Transfer(address indexed from, address indexed to, uint value);
-    event Mint(address indexed sender, uint amount0, uint amount1);
-    event Burn(
-        address indexed sender,
-        uint amount0,
-        uint amount1,
-        address indexed to
-    );
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Mint(address indexed sender, uint256 amount0, uint256 amount1);
+    event Burn(address indexed sender, uint256 amount0, uint256 amount1, address indexed to);
     event Swap(
         address indexed sender,
-        uint amount0In,
-        uint amount1In,
-        uint amount0Out,
-        uint amount1Out,
+        uint256 amount0In,
+        uint256 amount1In,
+        uint256 amount0Out,
+        uint256 amount1Out,
         address indexed to
     );
     event Sync(uint112 reserve0, uint112 reserve1);
@@ -53,10 +48,7 @@ contract UniswapV2ERC20Test is Test {
             (token0, token1) = (token1, token0);
         }
 
-        address pairAddress = factory.createPair(
-            address(token0),
-            address(token1)
-        );
+        address pairAddress = factory.createPair(address(token0), address(token1));
 
         pair = UniswapV2Pair(pairAddress);
 
@@ -93,7 +85,7 @@ contract UniswapV2ERC20Test is Test {
         assertEq(token0.balanceOf(address(pair)), token0Amount);
         assertEq(token1.balanceOf(address(pair)), token1Amount);
 
-        (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
+        (uint112 reserve0, uint112 reserve1,) = pair.getReserves();
         assertEq(reserve0, token0Amount);
         assertEq(reserve1, token1Amount);
     }
@@ -111,18 +103,13 @@ contract UniswapV2ERC20Test is Test {
 
         uint256 totalSupply = pair.totalSupply();
 
-        uint expectedLiquidity = Math.min(
-            token0Amount.mul(totalSupply) / token0Amount,
-            token1Amount.mul(totalSupply) / token1Amount
-        );
+        uint256 expectedLiquidity =
+            Math.min(token0Amount.mul(totalSupply) / token0Amount, token1Amount.mul(totalSupply) / token1Amount);
 
         vm.expectEmit(true, true, true, true);
         emit Transfer(address(0), owner, expectedLiquidity);
         vm.expectEmit(true, true, true, true);
-        emit Sync(
-            uint112(token0Amount + token0Amount),
-            uint112(token1Amount + token1Amount)
-        );
+        emit Sync(uint112(token0Amount + token0Amount), uint112(token1Amount + token1Amount));
         vm.expectEmit(true, true, true, true);
         emit Mint(owner, token0Amount, token1Amount);
 
@@ -136,7 +123,7 @@ contract UniswapV2ERC20Test is Test {
         assertEq(token0.balanceOf(address(pair)), token0Amount + token0Amount);
         assertEq(token1.balanceOf(address(pair)), token1Amount + token1Amount);
 
-        (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
+        (uint112 reserve0, uint112 reserve1,) = pair.getReserves();
 
         assertEq(reserve0, token0Amount + token0Amount);
         assertEq(reserve1, token1Amount + token1Amount);
@@ -158,10 +145,7 @@ contract UniswapV2ERC20Test is Test {
         vm.expectEmit(true, true, true, true);
         emit Transfer(address(pair), owner, expectedOutputAmount);
         vm.expectEmit(true, true, true, true);
-        emit Sync(
-            uint112(token0Amount + swapAmount),
-            uint112(token1Amount - expectedOutputAmount)
-        );
+        emit Sync(uint112(token0Amount + swapAmount), uint112(token1Amount - expectedOutputAmount));
         vm.expectEmit(true, true, true, true);
         emit Swap(owner, swapAmount, 0, 0, expectedOutputAmount, owner);
 
@@ -169,27 +153,18 @@ contract UniswapV2ERC20Test is Test {
 
         vm.stopPrank();
 
-        (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
+        (uint112 reserve0, uint112 reserve1,) = pair.getReserves();
 
         assertEq(reserve0, token0Amount + swapAmount);
         assertEq(reserve1, token1Amount - expectedOutputAmount);
         assertEq(token0.balanceOf(address(pair)), token0Amount + swapAmount);
-        assertEq(
-            token1.balanceOf(address(pair)),
-            token1Amount - expectedOutputAmount
-        );
+        assertEq(token1.balanceOf(address(pair)), token1Amount - expectedOutputAmount);
 
         uint256 totalSupplyToken0 = token0.totalSupply();
         uint256 totalSupplyToken1 = token1.totalSupply();
 
-        assertEq(
-            token0.balanceOf(owner),
-            totalSupplyToken0 - token0Amount - swapAmount
-        );
-        assertEq(
-            token1.balanceOf(owner),
-            totalSupplyToken1 - token1Amount + expectedOutputAmount
-        );
+        assertEq(token0.balanceOf(owner), totalSupplyToken0 - token0Amount - swapAmount);
+        assertEq(token1.balanceOf(owner), totalSupplyToken1 - token1Amount + expectedOutputAmount);
     }
 
     function test_SwapToken1() public {
@@ -208,10 +183,7 @@ contract UniswapV2ERC20Test is Test {
         vm.expectEmit(true, true, true, true);
         emit Transfer(address(pair), owner, expectedOutputAmount);
         vm.expectEmit(true, true, true, true);
-        emit Sync(
-            uint112(token0Amount - expectedOutputAmount),
-            uint112(token1Amount + swapAmount)
-        );
+        emit Sync(uint112(token0Amount - expectedOutputAmount), uint112(token1Amount + swapAmount));
         vm.expectEmit(true, true, true, true);
         emit Swap(owner, 0, swapAmount, expectedOutputAmount, 0, owner);
 
@@ -219,34 +191,25 @@ contract UniswapV2ERC20Test is Test {
 
         vm.stopPrank();
 
-        (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
+        (uint112 reserve0, uint112 reserve1,) = pair.getReserves();
 
         assertEq(reserve0, token0Amount - expectedOutputAmount);
         assertEq(reserve1, token1Amount + swapAmount);
-        assertEq(
-            token0.balanceOf(address(pair)),
-            token0Amount - expectedOutputAmount
-        );
+        assertEq(token0.balanceOf(address(pair)), token0Amount - expectedOutputAmount);
         assertEq(token1.balanceOf(address(pair)), token1Amount + swapAmount);
 
         uint256 totalSupplyToken0 = token0.totalSupply();
         uint256 totalSupplyToken1 = token1.totalSupply();
 
-        assertEq(
-            token0.balanceOf(owner),
-            totalSupplyToken0 - token0Amount + expectedOutputAmount
-        );
-        assertEq(
-            token1.balanceOf(owner),
-            totalSupplyToken1 - token1Amount - swapAmount
-        );
+        assertEq(token0.balanceOf(owner), totalSupplyToken0 - token0Amount + expectedOutputAmount);
+        assertEq(token1.balanceOf(owner), totalSupplyToken1 - token1Amount - swapAmount);
     }
 
     function test_Burn() public {
         uint256 token0Amount = 3e19;
         uint256 token1Amount = 3e19;
 
-        uint liquidity = addLiquidity(token0Amount, token1Amount);
+        uint256 liquidity = addLiquidity(token0Amount, token1Amount);
 
         vm.startPrank(owner);
 
@@ -263,7 +226,7 @@ contract UniswapV2ERC20Test is Test {
         vm.expectEmit(true, true, true, true);
         emit Burn(owner, token0Amount - 1000, token1Amount - 1000, owner);
 
-        (uint return0Amount, uint return1Amount) = pair.burn(owner);
+        (uint256 return0Amount, uint256 return1Amount) = pair.burn(owner);
 
         vm.stopPrank();
 
@@ -281,7 +244,7 @@ contract UniswapV2ERC20Test is Test {
 
         addLiquidity(token0Amount, token1Amount);
 
-        (, , uint32 blockTimestamp) = pair.getReserves();
+        (,, uint32 blockTimestamp) = pair.getReserves();
 
         // pretend to mine a block
         vm.roll(block.number + 1);
@@ -289,15 +252,12 @@ contract UniswapV2ERC20Test is Test {
 
         pair.sync(); // update price0CumulativeLast and price1CumulativeLast
 
-        (uint224 initialPrice0, uint224 initialPrice1) = encodePrice(
-            uint112(token0Amount),
-            uint112(token1Amount)
-        );
+        (uint224 initialPrice0, uint224 initialPrice1) = encodePrice(uint112(token0Amount), uint112(token1Amount));
 
         assertEq(pair.price0CumulativeLast(), initialPrice0);
         assertEq(pair.price1CumulativeLast(), initialPrice1);
 
-        (, , uint32 blockTimestampLast) = pair.getReserves();
+        (,, uint32 blockTimestampLast) = pair.getReserves();
 
         assertEq(blockTimestampLast, blockTimestamp + 1);
 
@@ -317,7 +277,7 @@ contract UniswapV2ERC20Test is Test {
         assertEq(pair.price0CumulativeLast(), initialPrice0 * 10);
         assertEq(pair.price1CumulativeLast(), initialPrice1 * 10);
 
-        (, , blockTimestampLast) = pair.getReserves();
+        (,, blockTimestampLast) = pair.getReserves();
 
         assertEq(blockTimestampLast, blockTimestamp + 10);
 
@@ -329,16 +289,10 @@ contract UniswapV2ERC20Test is Test {
 
         (uint224 newPrice0, uint224 newPrice1) = encodePrice(60e18, 20e18);
 
-        assertEq(
-            pair.price0CumulativeLast(),
-            initialPrice0 * 10 + newPrice0 * 10
-        );
-        assertEq(
-            pair.price1CumulativeLast(),
-            initialPrice1 * 10 + newPrice1 * 10
-        );
+        assertEq(pair.price0CumulativeLast(), initialPrice0 * 10 + newPrice0 * 10);
+        assertEq(pair.price1CumulativeLast(), initialPrice1 * 10 + newPrice1 * 10);
 
-        (, , blockTimestampLast) = pair.getReserves();
+        (,, blockTimestampLast) = pair.getReserves();
 
         assertEq(blockTimestampLast, blockTimestamp + 20);
     }
@@ -391,7 +345,7 @@ contract UniswapV2ERC20Test is Test {
         uint256 expectedLiquidity = 1000e19 - minimumLiquidity;
 
         pair.transfer(address(pair), expectedLiquidity);
-        (uint return0Amount, uint return1Amount) = pair.burn(owner);
+        (uint256 return0Amount, uint256 return1Amount) = pair.burn(owner);
 
         vm.stopPrank();
 
@@ -399,20 +353,11 @@ contract UniswapV2ERC20Test is Test {
 
         assertEq(pair.totalSupply(), minimumLiquidity + expectedLiquidityOnFee);
         assertEq(pair.balanceOf(feeTo), expectedLiquidityOnFee);
-        assertEq(
-            token0.balanceOf(address(pair)),
-            token0Amount - expectedOutputAmount - return0Amount
-        );
-        assertEq(
-            token1.balanceOf(address(pair)),
-            token1Amount + swapAmount - return1Amount
-        );
+        assertEq(token0.balanceOf(address(pair)), token0Amount - expectedOutputAmount - return0Amount);
+        assertEq(token1.balanceOf(address(pair)), token1Amount + swapAmount - return1Amount);
     }
 
-    function addLiquidity(
-        uint amount0,
-        uint amount1
-    ) public returns (uint liquidity) {
+    function addLiquidity(uint256 amount0, uint256 amount1) public returns (uint256 liquidity) {
         vm.startPrank(owner);
         token0.transfer(address(pair), amount0);
         token1.transfer(address(pair), amount1);
@@ -422,13 +367,9 @@ contract UniswapV2ERC20Test is Test {
         vm.stopPrank();
     }
 
-    function encodePrice(
-        uint112 reserve0,
-        uint112 reserve1
-    ) public pure returns (uint224, uint224) {
+    function encodePrice(uint112 reserve0, uint112 reserve1) public pure returns (uint224, uint224) {
         return (
-            UQ112x112.uqdiv(UQ112x112.encode(reserve1), reserve0),
-            UQ112x112.uqdiv(UQ112x112.encode(reserve0), reserve1)
+            UQ112x112.uqdiv(UQ112x112.encode(reserve1), reserve0), UQ112x112.uqdiv(UQ112x112.encode(reserve0), reserve1)
         );
     }
 }

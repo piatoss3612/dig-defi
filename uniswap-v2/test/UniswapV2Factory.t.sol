@@ -7,21 +7,14 @@ import "../src/UniswapV2Pair.sol";
 import "forge-std/Test.sol";
 
 contract UniswapV2FatoryTest is Test {
-    event PairCreated(
-        address indexed token0,
-        address indexed token1,
-        address pair,
-        uint
-    );
+    event PairCreated(address indexed token0, address indexed token1, address pair, uint256);
 
     UniswapV2Factory public factory;
 
     address feeToSetter;
 
     function setUp() public {
-        feeToSetter = vm.addr(
-            0x1234567890123456789012345678901234567890123456789012345678901234
-        );
+        feeToSetter = vm.addr(0x1234567890123456789012345678901234567890123456789012345678901234);
 
         factory = new UniswapV2Factory(feeToSetter);
     }
@@ -125,19 +118,12 @@ contract UniswapV2FatoryTest is Test {
         (address token0, address token1) = sortToken(tokenA, tokenB);
 
         address p1 = computePairAddress(address(factory), token0, token1);
-        address p2 = computePairAddressInAssembly(
-            address(factory),
-            token0,
-            token1
-        );
+        address p2 = computePairAddressInAssembly(address(factory), token0, token1);
 
         assertEq(p1, p2);
     }
 
-    function sortToken(
-        address tokenA,
-        address tokenB
-    ) public pure returns (address token0, address token1) {
+    function sortToken(address tokenA, address tokenB) public pure returns (address token0, address token1) {
         if (tokenA < tokenB) {
             token0 = tokenA;
             token1 = tokenB;
@@ -147,36 +133,18 @@ contract UniswapV2FatoryTest is Test {
         }
     }
 
-    function computePairAddress(
-        address _factory,
-        address tokenA,
-        address tokenB
-    ) public pure returns (address pair) {
+    function computePairAddress(address _factory, address tokenA, address tokenB) public pure returns (address pair) {
         (address token0, address token1) = sortToken(tokenA, tokenB);
         bytes32 byteCodeHash = keccak256(type(UniswapV2Pair).creationCode);
         bytes32 salt = keccak256(abi.encodePacked(token0, token1));
-        return
-            address(
-                uint160(
-                    uint(
-                        keccak256(
-                            abi.encodePacked(
-                                hex"ff",
-                                _factory,
-                                salt,
-                                byteCodeHash
-                            )
-                        )
-                    )
-                )
-            );
+        return address(uint160(uint256(keccak256(abi.encodePacked(hex"ff", _factory, salt, byteCodeHash)))));
     }
 
-    function computePairAddressInAssembly(
-        address _factory,
-        address tokenA,
-        address tokenB
-    ) public pure returns (address pair) {
+    function computePairAddressInAssembly(address _factory, address tokenA, address tokenB)
+        public
+        pure
+        returns (address pair)
+    {
         (address token0, address token1) = sortToken(tokenA, tokenB);
         bytes32 byteCodeHash = keccak256(type(UniswapV2Pair).creationCode);
         bytes32 salt = keccak256(abi.encodePacked(token0, token1));

@@ -17,9 +17,7 @@ contract Utilities is Test {
         return uint256(keccak256(abi.encodePacked(nextUser)));
     }
 
-    function addressFromPrivateKey(
-        uint256 privateKey
-    ) external pure returns (address) {
+    function addressFromPrivateKey(uint256 privateKey) external pure returns (address) {
         return vm.addr(privateKey);
     }
 
@@ -28,9 +26,7 @@ contract Utilities is Test {
     }
 
     /// @notice create users with 100 ether balance
-    function createUsers(
-        uint256 userNum
-    ) external returns (address payable[] memory) {
+    function createUsers(uint256 userNum) external returns (address payable[] memory) {
         address payable[] memory users = new address payable[](userNum);
         for (uint256 i = 0; i < userNum; i++) {
             address payable user = this.getNextUserAddress();
@@ -50,9 +46,7 @@ contract Utilities is Test {
         vm.warp(block.timestamp + time);
     }
 
-    function expandTo18Decimals(
-        uint256 amount
-    ) external pure returns (uint256) {
+    function expandTo18Decimals(uint256 amount) external pure returns (uint256) {
         return amount * 10 ** 18;
     }
 
@@ -65,22 +59,12 @@ contract Utilities is Test {
         bytes32 PERMIT_TYPEHASH,
         uint256 deadline
     ) public pure returns (bytes32) {
-        return
-            keccak256(
-                abi.encodePacked(
-                    "\x19\x01",
-                    domainSeparator,
-                    keccak256(
-                        abi.encode(
-                            PERMIT_TYPEHASH,
-                            _owner,
-                            _spender,
-                            value,
-                            nonce,
-                            deadline
-                        )
-                    )
-                )
-            );
+        return keccak256(
+            abi.encodePacked(
+                "\x19\x01",
+                domainSeparator,
+                keccak256(abi.encode(PERMIT_TYPEHASH, _owner, _spender, value, nonce, deadline))
+            )
+        );
     }
 }

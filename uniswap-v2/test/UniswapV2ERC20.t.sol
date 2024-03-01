@@ -26,13 +26,7 @@ contract UniswapV2ERC20Test is Test {
     }
 
     function test_Permit() public {
-        bytes32 digest = calcDigest(
-            owner,
-            spender,
-            1e9,
-            token.nonces(owner),
-            1 days
-        );
+        bytes32 digest = calcDigest(owner, spender, 1e9, token.nonces(owner), 1 days);
 
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(ownerPrivateKey, digest);
 
@@ -43,13 +37,7 @@ contract UniswapV2ERC20Test is Test {
     }
 
     function test_PermitAndTransferFrom() public {
-        bytes32 digest = calcDigest(
-            owner,
-            spender,
-            1e9,
-            token.nonces(owner),
-            1 days
-        );
+        bytes32 digest = calcDigest(owner, spender, 1e9, token.nonces(owner), 1 days);
 
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(ownerPrivateKey, digest);
 
@@ -66,13 +54,7 @@ contract UniswapV2ERC20Test is Test {
     }
 
     function testRevert_ExpiredPermit() public {
-        bytes32 digest = calcDigest(
-            owner,
-            spender,
-            1e9,
-            token.nonces(owner),
-            1 days
-        );
+        bytes32 digest = calcDigest(owner, spender, 1e9, token.nonces(owner), 1 days);
 
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(ownerPrivateKey, digest);
 
@@ -84,13 +66,7 @@ contract UniswapV2ERC20Test is Test {
     }
 
     function testRevert_InvalidNonce() public {
-        bytes32 digest = calcDigest(
-            owner,
-            spender,
-            1e9,
-            token.nonces(owner) + 1,
-            1 days
-        );
+        bytes32 digest = calcDigest(owner, spender, 1e9, token.nonces(owner) + 1, 1 days);
 
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(ownerPrivateKey, digest);
 
@@ -100,13 +76,7 @@ contract UniswapV2ERC20Test is Test {
     }
 
     function testRevert_SignatureReplay() public {
-        bytes32 digest = calcDigest(
-            owner,
-            spender,
-            1e9,
-            token.nonces(owner),
-            1 days
-        );
+        bytes32 digest = calcDigest(owner, spender, 1e9, token.nonces(owner), 1 days);
 
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(ownerPrivateKey, digest);
 
@@ -117,29 +87,17 @@ contract UniswapV2ERC20Test is Test {
         token.permit(owner, spender, 1e9, 1 days, v, r, s);
     }
 
-    function calcDigest(
-        address _owner,
-        address _spender,
-        uint256 value,
-        uint256 nonce,
-        uint256 deadline
-    ) public view returns (bytes32) {
-        return
-            keccak256(
-                abi.encodePacked(
-                    "\x19\x01",
-                    token.DOMAIN_SEPARATOR(),
-                    keccak256(
-                        abi.encode(
-                            token.PERMIT_TYPEHASH(),
-                            _owner,
-                            _spender,
-                            value,
-                            nonce,
-                            deadline
-                        )
-                    )
-                )
-            );
+    function calcDigest(address _owner, address _spender, uint256 value, uint256 nonce, uint256 deadline)
+        public
+        view
+        returns (bytes32)
+    {
+        return keccak256(
+            abi.encodePacked(
+                "\x19\x01",
+                token.DOMAIN_SEPARATOR(),
+                keccak256(abi.encode(token.PERMIT_TYPEHASH(), _owner, _spender, value, nonce, deadline))
+            )
+        );
     }
 }
