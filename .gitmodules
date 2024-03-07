@@ -42,3 +42,9 @@
 [submodule "uniswap-v2/lib/openzeppelin-contracts"]
 	path = uniswap-v2/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "simple-dao/lib/forge-std"]
+	path = simple-dao/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "simple-dao/lib/openzeppelin-contracts"]
+	path = simple-dao/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
