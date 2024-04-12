@@ -48,3 +48,9 @@
 [submodule "simple-dao/lib/openzeppelin-contracts"]
 	path = simple-dao/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "governance/lib/forge-std"]
+	path = governance/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "governance/lib/openzeppelin-contracts"]
+	path = governance/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
