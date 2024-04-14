@@ -54,3 +54,9 @@
 [submodule "governance/lib/openzeppelin-contracts"]
 	path = governance/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "nft-indexer/lib/forge-std"]
+	path = nft-indexer/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "nft-indexer/lib/openzeppelin-contracts"]
+	path = nft-indexer/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts

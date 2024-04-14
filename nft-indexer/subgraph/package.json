@@ -1,0 +1,18 @@
+{
+  "name": "mynft",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ mynft",
+    "create-local": "graph create --node http://localhost:8020/ mynft",
+    "remove-local": "graph remove --node http://localhost:8020/ mynft",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 mynft",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.69.1",
+    "@graphprotocol/graph-ts": "0.32.0"
+  },
+  "devDependencies": { "matchstick-as": "0.5.0" }
+}
