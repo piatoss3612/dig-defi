@@ -5,13 +5,11 @@ abstract contract ReentrancyGuard {
     bool private _locked;
 
     modifier noReentrant() {
-        assembly {
-            if sload(_locked.slot) { revert(0, 0) }
-            sstore(_locked.slot, 1)
+        if (_locked) {
+            revert("ReentrancyGuard: reentrant call");
         }
+        _locked = true;
         _;
-        assembly {
-            sstore(_locked.slot, 0)
-        }
+        _locked = false;
     }
 }

@@ -3,28 +3,40 @@
 ### Test
 
 ```bash
-$ forge test -vv --gas-report
+$ forge test --gas-report -vv
 [⠒] Compiling...
-[⠒] Compiling 2 files with 0.8.24
-[⠑] Solc 0.8.24 finished in 1.38s
-Compiler run successful!
+No files changed, compilation skipped
 
-Ran 2 tests for test/Counter.t.sol:CounterTest
-[PASS] test_IncrementV1() (gas: 51657)
+Ran 4 tests for test/Counter.t.sol:CounterTest
+[PASS] test_IncrementV0() (gas: 55653)
 Logs:
-  gas used:  57564
+  gas used:  48457
 
-[PASS] test_IncrementV2() (gas: 55858)
+[PASS] test_IncrementV1() (gas: 51716)
+Logs:
+  gas used:  57699
+
+[PASS] test_IncrementV2() (gas: 55860)
 Logs:
   gas used:  48737
 
-Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.04ms (522.70µs CPU time)
+[FAIL. Reason: call did not revert as expected] test_RevertIncrementV3TwiceByNotClearingTS() (gas: 79876)
+Suite result: FAILED. 3 passed; 1 failed; 0 skipped; finished in 1.20ms (737.30µs CPU time)
+| src/Counter.sol:CounterV0 contract |                 |       |        |       |         |
+|------------------------------------|-----------------|-------|--------|-------|---------|
+| Deployment Cost                    | Deployment Size |       |        |       |         |
+| 104479                             | 264             |       |        |       |         |
+| Function Name                      | min             | avg   | median | max   | # calls |
+| increment                          | 43401           | 43401 | 43401  | 43401 | 1       |
+| number                             | 281             | 281   | 281    | 281   | 1       |
+
+
 | src/Counter.sol:CounterV1 contract |                 |       |        |       |         |
 |------------------------------------|-----------------|-------|--------|-------|---------|
 | Deployment Cost                    | Deployment Size |       |        |       |         |
-| 108803                             | 285             |       |        |       |         |
+| 130939                             | 388             |       |        |       |         |
 | Function Name                      | min             | avg   | median | max   | # calls |
-| increment                          | 52508           | 52508 | 52508  | 52508 | 1       |
+| increment                          | 52694           | 52694 | 52694  | 52694 | 1       |
 | number                             | 282             | 282   | 282    | 282   | 1       |
 
 
@@ -37,7 +49,22 @@ Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.04ms (522.70µs C
 | number                             | 281             | 281   | 281    | 281   | 1       |
 
 
+| src/Counter.sol:CounterV3 contract |                 |       |        |       |         |
+|------------------------------------|-----------------|-------|--------|-------|---------|
+| Deployment Cost                    | Deployment Size |       |        |       |         |
+| 124391                             | 358             |       |        |       |         |
+| Function Name                      | min             | avg   | median | max   | # calls |
+| increment                          | 26527           | 35077 | 35077  | 43627 | 2       |
+| number                             | 281             | 281   | 281    | 281   | 1       |
 
 
-Ran 1 test suite in 9.37ms (1.04ms CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
+
+
+Ran 1 test suite in 7.17ms (1.20ms CPU time): 3 tests passed, 1 failed, 0 skipped (4 total tests)
+
+Failing tests:
+Encountered 1 failing test in test/Counter.t.sol:CounterTest
+[FAIL. Reason: call did not revert as expected] test_RevertIncrementV3TwiceByNotClearingTS() (gas: 79876)
+
+Encountered a total of 1 failing tests, 3 tests succeeded
 ```
