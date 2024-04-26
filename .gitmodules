@@ -63,3 +63,6 @@
 [submodule "transient-storage/lib/forge-std"]
 	path = transient-storage/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "chainlink-ccip-demo/lib/forge-std"]
+	path = chainlink-ccip-demo/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
