@@ -66,3 +66,12 @@
 [submodule "chainlink-ccip-demo/lib/forge-std"]
 	path = chainlink-ccip-demo/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "chainlink-ccip-demo/lib/foundry-chainlink-toolkit"]
+	path = chainlink-ccip-demo/lib/foundry-chainlink-toolkit
+	url = https://github.com/smartcontractkit/foundry-chainlink-toolkit
+[submodule "chainlink-ccip-demo/lib/openzeppelin-contracts"]
+	path = chainlink-ccip-demo/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "chainlink-ccip-demo/lib/chainlink-local"]
+	path = chainlink-ccip-demo/lib/chainlink-local
+	url = https://github.com/smartcontractkit/chainlink-local

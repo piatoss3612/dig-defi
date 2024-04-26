@@ -1,0 +1,17 @@
+@chainlink/contracts-ccip/=node_modules/@chainlink/contracts-ccip/
+@arbitrum/=node_modules/@arbitrum/
+@chainlink/contracts/=lib/foundry-chainlink-toolkit/lib/chainlink-brownie-contracts/contracts/src/
+@chainlink/local/src/=lib/chainlink-local/src/
+@eth-optimism/=node_modules/@eth-optimism/
+@offchainlabs/=node_modules/@offchainlabs/
+@openzeppelin/=node_modules/@openzeppelin/
+@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/
+@scroll-tech/=node_modules/@scroll-tech/
+ccip/=lib/chainlink-local/lib/ccip/contracts/
+chainlink-brownie-contracts/=lib/foundry-chainlink-toolkit/lib/chainlink-brownie-contracts/contracts/src/v0.6/vendor/@arbitrum/nitro-contracts/src/
+chainlink-local/=lib/chainlink-local/src/
+ds-test/=lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/
+erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/
+forge-std/=lib/forge-std/src/
+foundry-chainlink-toolkit/=lib/foundry-chainlink-toolkit/
+openzeppelin-contracts/=lib/openzeppelin-contracts/
