@@ -75,13 +75,19 @@ $ forge script script/GreetingReceiver.s.sol --rpc-url optimism --account piatos
 - Using `CCIPLocalSimulator` to test the contracts locally
 
 ```bash
-$ forge test -vv
+$ forge test
 [⠒] Compiling...
-No files changed, compilation skipped
+[⠒] Compiling 1 files with 0.8.24
+[⠢] Solc 0.8.24 finished in 3.86s
+Compiler run successful!
 
-Ran 1 test for test/CCIP.t.sol:CCIPTest
+Ran 1 test for test/Greeting.t.sol:GreetingTest
 [PASS] test_SendGreeting() (gas: 109468)
-Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.38ms (290.70µs CPU time)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.20ms (255.50µs CPU time)
 
-Ran 1 test suite in 32.90ms (1.38ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)
+Ran 1 test for test/TokenTransfer.t.sol:TokenTransferTest
+[PASS] test_TransferToken() (gas: 175692)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.30ms (289.40µs CPU time)
+
+Ran 2 test suites in 55.88ms (2.49ms CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
 ```

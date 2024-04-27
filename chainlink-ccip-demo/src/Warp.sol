@@ -64,7 +64,12 @@ abstract contract Warp is IWarp, CCIPReceiver, OwnerIsCreator {
             feeToken: LINK
         });
 
-        bool ok = IERC20(token).approve(getRouter(), amount);
+        bool ok = IERC20(token).transferFrom(msg.sender, address(this), amount);
+        if (!ok) {
+            revert FailToTransferTokenFromSender();
+        }
+
+        ok = IERC20(token).approve(getRouter(), amount);
         if (!ok) {
             revert FailedToApproveToken(token, amount);
         }
