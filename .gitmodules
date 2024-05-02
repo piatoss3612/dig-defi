@@ -75,3 +75,6 @@
 [submodule "chainlink-ccip-demo/lib/chainlink-local"]
 	path = chainlink-ccip-demo/lib/chainlink-local
 	url = https://github.com/smartcontractkit/chainlink-local
+[submodule "zksudoku/lib/forge-std"]
+	path = zksudoku/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
