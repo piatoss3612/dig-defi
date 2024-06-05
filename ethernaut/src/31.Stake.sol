@@ -62,7 +62,7 @@ contract DummyStaker {
     }
 
     function stakeETH() external payable {
-        uint256 amount = 0.001 ether + 2;
+        uint256 amount = (0.001 ether + 1) + 1;
         if (msg.value != amount) revert();
         stakeContract.StakeETH{value: amount}();
     }

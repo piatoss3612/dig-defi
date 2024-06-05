@@ -21,19 +21,14 @@ contract StakeScript is Script {
 
         vm.startBroadcast(privateKey);
 
-        Stake target = Stake(0xeeD56B91E4b79fB9ead2d9747CE54cB7BFaE13C1);
+        Stake target = Stake(0xf246A3869d3fa54A70bb8868F8d1144A08785FBB);
         address WETH = target.WETH();
-
-        console.log(WETH);
 
         uint256 amount = 0.001 ether + 1;
 
         // Stake ETH using DummyStaker
         DummyStaker dummyStaker = new DummyStaker(address(target));
         dummyStaker.stakeETH{value: amount + 1}();
-
-        // Stake ETH directly
-        target.StakeETH{value: amount}();
 
         // Approve WETH to Stake contract
         (bool ok,) = WETH.call(abi.encodeWithSignature("approve(address,uint256)", address(target), type(uint256).max));
@@ -43,7 +38,7 @@ contract StakeScript is Script {
         target.StakeWETH(amount);
 
         // Unstake ETH
-        target.Unstake(amount * 2);
+        target.Unstake(amount);
 
         vm.stopBroadcast();
     }
