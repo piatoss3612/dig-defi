@@ -33,5 +33,5 @@
 | 27. GoodSamaritan    | ★★★☆☆ | https://piatoss3612.tistory.com/123 |
 | 28. Gatekeeper Three | ★★★☆☆ | https://piatoss3612.tistory.com/124 |
 | 29. Switch           | ★★★★☆ | https://piatoss3612.tistory.com/127 |
-| 30. HigherOrder      | ★★★★☆ |                                     |
+| 30. HigherOrder      | ★★★★☆ | https://piatoss3612.tistory.com/175 |
 | 31. Stake            | ★★★☆☆ | https://piatoss3612.tistory.com/169 |
