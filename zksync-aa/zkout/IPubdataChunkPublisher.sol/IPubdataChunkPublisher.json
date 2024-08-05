@@ -1,0 +1,1 @@
+{"abi":[{"type":"function","name":"chunkAndPublishPubdata","inputs":[{"name":"_pubdata","type":"bytes","internalType":"bytes"}],"outputs":[],"stateMutability":"nonpayable"}],"storageLayout":{"storage":[],"types":{}},"userdoc":{},"devdoc":{},"id":52}

@@ -81,3 +81,9 @@
 [submodule "zksync-aa/lib/forge-std"]
 	path = zksync-aa/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "zksync-aa/lib/foundry-era-contracts"]
+	path = zksync-aa/lib/foundry-era-contracts
+	url = https://github.com/Cyfrin/foundry-era-contracts
+[submodule "zksync-aa/lib/foundry-devops"]
+	path = zksync-aa/lib/foundry-devops
+	url = https://github.com/Cyfrin/foundry-devops

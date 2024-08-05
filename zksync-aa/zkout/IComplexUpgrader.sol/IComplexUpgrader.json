@@ -1,0 +1,1 @@
+{"abi":[{"type":"function","name":"upgrade","inputs":[{"name":"_delegateTo","type":"address","internalType":"address"},{"name":"_calldata","type":"bytes","internalType":"bytes"}],"outputs":[],"stateMutability":"payable"}],"storageLayout":{"storage":[],"types":{}},"userdoc":{},"devdoc":{},"id":43}
