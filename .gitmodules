@@ -78,3 +78,6 @@
 [submodule "zksudoku/lib/forge-std"]
 	path = zksudoku/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "zksync-aa/lib/forge-std"]
+	path = zksync-aa/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
