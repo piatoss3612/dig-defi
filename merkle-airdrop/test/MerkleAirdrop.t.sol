@@ -30,7 +30,14 @@ contract MerkleAirdropTest is Test {
         uint256 startingBalance = token.balanceOf(user);
 
         vm.prank(user);
-        airdrop.claim(user, amountToCollect, proof);
+
+        bytes32 digest = airdrop.getMessageHash(user, amountToCollect);
+
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(userPrivKey, digest);
+
+        bytes memory signature = abi.encodePacked(r, s, v);
+
+        airdrop.claim(user, amountToCollect, proof, signature);
 
         uint256 endingBalance = token.balanceOf(user);
 

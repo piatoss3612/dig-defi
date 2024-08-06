@@ -22,7 +22,13 @@ contract DeployMerkleAirdropScript is Script {
 
         token.mint(address(airdrop), amountToCollect * 4);
 
-        airdrop.claim(msg.sender, amountToCollect, proof);
+        bytes32 digest = airdrop.getMessageHash(msg.sender, amountToCollect);
+
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(digest);
+
+        bytes memory signature = abi.encodePacked(r, s, v);
+
+        airdrop.claim(msg.sender, amountToCollect, proof, signature);
 
         vm.stopBroadcast();
     }
